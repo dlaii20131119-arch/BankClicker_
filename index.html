@@ -227,8 +227,12 @@ async function register(){
   showAuthMessage("⏳ Создаём аккаунт...");
   const {data,error}=await sb.auth.signUp({email,password,options:{data:{username}}});
   if(error) return showAuthMessage("❌ " + error.message);
-  if(data.session) await enterGame();
-  else showAuthMessage("✅ Аккаунт создан. Если требуется подтверждение email, проверь почту.");
+  if(data.session){
+    await enterGame();
+}else{
+    showLogin();
+    showAuthMessage("✅ Аккаунт создан! Теперь войдите в аккаунт.");
+                                           }
 }
 
 async function login(){
