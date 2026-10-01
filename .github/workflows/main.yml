@@ -1,13 +1,11 @@
 name: Build BankClicker APK
 
 on:
-  workflow_dispatch:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+  push:
 
 jobs:
-  build:
+  build:
     runs-on: ubuntu-latest
 
     steps:
