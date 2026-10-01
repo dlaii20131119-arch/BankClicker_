@@ -1,65 +1,89 @@
 name: Build BankClicker APK
 
 on:
-  workflow_dispatch:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  build:
+    runs-on: ubuntu-latest
 
-    steps:
-      - name: Download repository
-        uses: actions/checkout@v4
+    steps:
+      - name: Download repository
+        uses: actions/checkout@v4
 
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: '21'
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
 
-      - name: Prepare web files
-        run: |
-          mkdir -p www
-          cp -r index.html www/
-          if [ -d "css" ]; then cp -r css www/; fi
-          if [ -d "js" ]; then cp -r js www/; fi
-          if [ -d "images" ]; then cp -r images www/; fi
-          if [ -d "assets" ]; then cp -r assets www/; fi
+      - name: Prepare web files
+        run: |
+          mkdir -p www
+          cp -r index.html www/
+          if [ -d "css" ]; then cp -r css www/; fi
+          if [ -d "js" ]; then cp -r js www/; fi
+          if [ -d "images" ]; then cp -r images www/; fi
+          if [ -d "assets" ]; then cp -r assets www/; fi
 
-      - name: Install Capacitor
-        run: |
-          npm init -y
-          npm install @capacitor/core @capacitor/cli @capacitor/android
+      - name: Install Capacitor
+        run: |
+          npm init -y
+          npm install @capacitor/core @capacitor/cli @capacitor/android
 
-      - name: Create Capacitor config
-        run: |
-          cat > capacitor.config.json <<'EOF'
-          {
-            "appId": "com.bankclicker.app",
-            "appName": "BankClicker",
-            "webDir": "www"
-          }
-          EOF
+      - name: Create Capacitor config
+        run: |
+          cat > capacitor.config.json <<'EOF'
+          {
+            "appId": "com.bankclicker.app",
+            "appName": "BankClicker",
+            "webDir": "www"
+          }
+          EOF
 
-      - name: Create Android project
-        run: npx cap add android
+      - name: Create Android project
+        run: npx cap add android
 
-      - name: Build APK
-        run: |
-          cd android
-          chmod +x gradlew
-          ./gradlew assembleDebug
+      - name: Fix Kotlin dependencies
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
 
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: BankClicker-APK
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          path = Path("android/build.gradle")
+          text = path.read_text()
+
+          fix = """
+          configurations.all {
+              resolutionStrategy {
+                  force 'org.jetbrains.kotlin:kotlin-stdlib:1.8.22'
+                  force 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.22'
+                  force 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.22'
+              }
+          }
+          """
+
+          if "force 'org.jetbrains.kotlin:kotlin-stdlib:1.8.22'" not in text:
+              path.write_text(fix + "\\n" + text)
+          PY
+
+      - name: Build APK
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: BankClicker-APK
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+--
+Отправлено из Mail для Android
