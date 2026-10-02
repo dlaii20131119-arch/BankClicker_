@@ -1,14 +1,21 @@
 <!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#1677ff">
-  <title>Bank Clicker Online</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1677ff">
+<title>Bank Clicker Online</title>
 
-  <style>
+<style>
 *{box-sizing:border-box}
-body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:#f4f7fb;color:#172033}
+
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  background:#f4f7fb;
+  color:#172033
+}
+
 button,input{font:inherit}
 button{border:0;cursor:pointer}
 
@@ -19,7 +26,7 @@ button{border:0;cursor:pointer}
   display:flex;
   align-items:center;
   justify-content:center;
-  z-index:999;
+  z-index:999
 }
 
 .loadingBox{
@@ -27,7 +34,7 @@ button{border:0;cursor:pointer}
   padding:30px;
   border-radius:24px;
   text-align:center;
-  box-shadow:0 15px 45px #10204018;
+  box-shadow:0 15px 45px #10204018
 }
 
 .loadingLogo{font-size:55px}
@@ -266,7 +273,17 @@ main{
   font-weight:700
 }
 
-.vipBtn{background:#8b5cf6!important}
+.admin-actions .takeBtn{
+  background:#e53935;
+}
+
+.admin-actions .takeBtn:hover{
+  background:#c62828;
+}
+
+.vipBtn{
+  background:#8b5cf6!important
+}
 
 .bottom-nav{
   position:fixed;
@@ -319,15 +336,17 @@ main{
   .bottom-nav button span{font-size:9px}
   .balance{font-size:31px}
 }
-  </style>
+</style>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
-          onerror="window.__SUPABASE_CDN_ERROR=true"></script>
+<script
+  src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+  onerror="window.__SUPABASE_CDN_ERROR=true">
+</script>
+
 </head>
 
 <body>
 
-<!-- Экран проверки сохранённого входа -->
 <div id="loadingScreen">
   <div class="loadingBox">
     <div class="loadingLogo">🏦</div>
@@ -335,8 +354,8 @@ main{
   </div>
 </div>
 
-<!-- Вход / регистрация -->
 <div id="authScreen" class="screen" hidden>
+
   <div class="auth-card">
 
     <div class="logo">🏦</div>
@@ -364,16 +383,14 @@ main{
       <button
         type="button"
         class="primary"
-        onclick="login()"
-      >
+        onclick="login()">
         Войти
       </button>
 
       <button
         type="button"
         class="linkBtn"
-        onclick="showRegister()"
-      >
+        onclick="showRegister()">
         Создать аккаунт
       </button>
 
@@ -403,16 +420,14 @@ main{
       <button
         type="button"
         class="primary"
-        onclick="register()"
-      >
+        onclick="register()">
         Зарегистрироваться
       </button>
 
       <button
         type="button"
         class="linkBtn"
-        onclick="showLogin()"
-      >
+        onclick="showLogin()">
         У меня уже есть аккаунт
       </button>
 
@@ -421,244 +436,246 @@ main{
     <div id="authMessage" class="message"></div>
 
   </div>
+
 </div>
 
-<!-- Игра -->
 <div id="gameScreen" hidden>
 
-  <header class="top">
+<header class="top">
 
-    <div>
-      <div class="brand">🏦 Bank Clicker</div>
-      <div id="playerName" class="small"></div>
+  <div>
+
+    <div class="brand">
+      🏦 Bank Clicker
     </div>
 
-    <div class="onlineBadge">
-      🟢 <span id="onlineCount">1</span>
+    <div id="playerName" class="small"></div>
+
+  </div>
+
+  <div class="onlineBadge">
+    🟢 <span id="onlineCount">1</span>
+  </div>
+
+</header>
+
+<main>
+
+<section id="home" class="section active">
+
+  <div class="balance-card">
+
+    <div class="muted">
+      Баланс
     </div>
 
-  </header>
+    <div id="money" class="balance">
+      $0
+    </div>
 
-  <main>
+    <div id="income" class="income">
+      + $0 / сек
+    </div>
 
-    <section id="home" class="section active">
+  </div>
 
-      <div class="balance-card">
+  <button
+    id="bankButton"
+    class="bankButton"
+    onclick="clickBank()">
 
-        <div class="muted">Баланс</div>
+    <span>🏦</span>
 
-        <div id="money" class="balance">
-          $0
-        </div>
+    <b>НАЖМИ</b>
 
-        <div id="income" class="income">
-          + $0 / сек
-        </div>
+    <small>
+      заработать деньги
+    </small>
 
-      </div>
+  </button>
+
+  <div class="stats-grid">
+
+    <div class="stat">
+      <b id="btc">0</b>
+      <span>₿ Bitcoin</span>
+    </div>
+
+    <div class="stat">
+      <b id="clicks">0</b>
+      <span>Кликов</span>
+    </div>
+
+    <div class="stat">
+      <b id="level">1</b>
+      <span>Уровень</span>
+    </div>
+
+    <div class="stat">
+      <b id="rep">0</b>
+      <span>Репутация</span>
+    </div>
+
+  </div>
+
+</section>
+
+<section id="upgrades" class="section">
+
+  <h2>⚡ Улучшения</h2>
+
+  <div id="upgradeList"></div>
+
+</section>
+
+<section id="bitcoin" class="section">
+
+  <h2>₿ Bitcoin</h2>
+
+  <div class="card">
+
+    <div class="muted">
+      Цена BTC
+    </div>
+
+    <div id="btcPrice" class="big">
+      $65,000
+    </div>
+
+    <div class="btcActions">
 
       <button
-        id="bankButton"
-        class="bankButton"
-        onclick="clickBank()"
-      >
-
-        <span>🏦</span>
-
-        <b>НАЖМИ</b>
-
-        <small>
-          заработать деньги
-        </small>
-
+        class="primary"
+        onclick="buyBTC()">
+        Купить 1 BTC
       </button>
 
-      <div class="stats-grid">
+      <button
+        class="secondary"
+        onclick="sellBTC()">
+        Продать 1 BTC
+      </button>
 
-        <div class="stat">
-          <b id="btc">0</b>
-          <span>₿ Bitcoin</span>
-        </div>
+    </div>
 
-        <div class="stat">
-          <b id="clicks">0</b>
-          <span>Кликов</span>
-        </div>
+  </div>
 
-        <div class="stat">
-          <b id="level">1</b>
-          <span>Уровень</span>
-        </div>
+</section>
 
-        <div class="stat">
-          <b id="rep">0</b>
-          <span>Репутация</span>
-        </div>
+<section id="shop" class="section">
 
-      </div>
+  <h2>🛒 Магазин</h2>
 
-    </section>
+  <div id="shopList"></div>
 
-    <section id="upgrades" class="section">
+</section>
 
-      <h2>⚡ Улучшения</h2>
+<section id="achievements" class="section">
 
-      <div id="upgradeList"></div>
+  <h2>🏆 Достижения</h2>
 
-    </section>
+  <div id="achievementList"></div>
 
-    <section id="bitcoin" class="section">
+</section>
 
-      <h2>₿ Bitcoin</h2>
+<section id="players" class="section">
 
-      <div class="card">
+  <h2>🌐 Игроки онлайн</h2>
 
-        <div class="muted">
-          Цена BTC
-        </div>
+  <div class="card">
 
-        <div id="btcPrice" class="big">
-          $65,000
-        </div>
+    <p class="muted">
+      Сейчас в сети:
+      <b id="playersCountText">1</b>
+    </p>
 
-        <div class="btcActions">
+    <div id="playersList"></div>
 
-          <button
-            class="primary"
-            onclick="buyBTC()"
-          >
-            Купить 1 BTC
-          </button>
+  </div>
 
-          <button
-            class="secondary"
-            onclick="sellBTC()"
-          >
-            Продать 1 BTC
-          </button>
+</section>
 
-        </div>
+<section id="settings" class="section">
 
-      </div>
+  <h2>⚙️ Настройки</h2>
 
-    </section>
+  <div class="card">
 
-    <section id="shop" class="section">
+    <p>
+      👤 <b id="settingsName"></b>
+    </p>
 
-      <h2>🛒 Магазин</h2>
+    <p class="muted">
+      Прогресс хранится на сервере.
+    </p>
 
-      <div id="shopList"></div>
-
-    </section>
-
-    <section id="achievements" class="section">
-
-      <h2>🏆 Достижения</h2>
-
-      <div id="achievementList"></div>
-
-    </section>
-
-    <section id="players" class="section">
-
-      <h2>🌐 Игроки онлайн</h2>
-
-      <div class="card">
-
-        <p class="muted">
-          Сейчас в сети:
-          <b id="playersCountText">1</b>
-        </p>
-
-        <div id="playersList"></div>
-
-      </div>
-
-    </section>
-
-    <section id="settings" class="section">
-
-      <h2>⚙️ Настройки</h2>
-
-      <div class="card">
-
-        <p>
-          👤 <b id="settingsName"></b>
-        </p>
-
-        <p class="muted">
-          Прогресс хранится на сервере.
-        </p>
-
-        <button
-          class="danger"
-          onclick="logout()"
-        >
-          🚪 Выйти
-        </button>
-
-      </div>
-
-    </section>
-
-    <section id="admin" class="section">
-
-      <h2>🛡️ Панель разработчика</h2>
-
-      <div class="card">
-
-        <p class="muted">
-          Доступ разрешён только аккаунту с ролью admin на сервере.
-        </p>
-
-        <button
-          class="secondary"
-          onclick="loadAdminPlayers()"
-        >
-          🔄 Обновить игроков
-        </button>
-
-        <div id="adminPlayers"></div>
-
-      </div>
-
-    </section>
-
-  </main>
-
-  <nav class="bottom-nav">
-
-    <button onclick="nav('home')">
-      🏠
-      <span>Главная</span>
+    <button
+      class="danger"
+      onclick="logout()">
+      🚪 Выйти
     </button>
 
-    <button onclick="nav('upgrades')">
-      ⚡
-      <span>Улучшения</span>
+  </div>
+
+</section>
+
+<section id="admin" class="section">
+
+  <h2>🛡️ Панель разработчика</h2>
+
+  <div class="card">
+
+    <p class="muted">
+      Доступ разрешён только аккаунту с ролью admin на сервере.
+    </p>
+
+    <button
+      class="secondary"
+      onclick="loadAdminPlayers()">
+      🔄 Обновить игроков
     </button>
 
-    <button onclick="nav('bitcoin')">
-      ₿
-      <span>Bitcoin</span>
-    </button>
+    <div id="adminPlayers"></div>
 
-    <button onclick="nav('shop')">
-      🛒
-      <span>Магазин</span>
-    </button>
+  </div>
 
-    <button onclick="nav('players')">
-      🌐
-      <span>Онлайн</span>
-    </button>
+</section>
 
-    <button onclick="nav('settings')">
-      ⚙️
-      <span>Ещё</span>
-    </button>
+</main>
 
-  </nav>
+<nav class="bottom-nav">
+
+  <button onclick="nav('home')">
+    🏠
+    <span>Главная</span>
+  </button>
+
+  <button onclick="nav('upgrades')">
+    ⚡
+    <span>Улучшения</span>
+  </button>
+
+  <button onclick="nav('bitcoin')">
+    ₿
+    <span>Bitcoin</span>
+  </button>
+
+  <button onclick="nav('shop')">
+    🛒
+    <span>Магазин</span>
+  </button>
+
+  <button onclick="nav('players')">
+    🌐
+    <span>Онлайн</span>
+  </button>
+
+  <button onclick="nav('settings')">
+    ⚙️
+    <span>Ещё</span>
+  </button>
+
+</nav>
 
 </div>
 
@@ -722,6 +739,7 @@ const el = {
   adminPlayers:$("adminPlayers"),
 
   toast:$("toast")
+
 };
 
 function hasSupabaseConfig(){
@@ -744,6 +762,7 @@ function initSupabase(){
     );
 
     return false;
+
   }
 
   if(
@@ -756,6 +775,7 @@ function initSupabase(){
     );
 
     return false;
+
   }
 
   try{
@@ -775,6 +795,7 @@ function initSupabase(){
     );
 
     return false;
+
   }
 
 }
@@ -783,7 +804,6 @@ let onlineChannel = null;
 let presenceTimer = null;
 
 let btcPrice = 65000;
-let lastState = null;
 
 const upgrades = [
 
@@ -857,11 +877,6 @@ const achievements = [
 
 ];
 
-
-/* =========================================
-   ЗАПУСК И ПРОВЕРКА СОХРАНЁННОГО ВХОДА
-   ========================================= */
-
 document.addEventListener(
   "DOMContentLoaded",
   async () => {
@@ -872,26 +887,13 @@ document.addEventListener(
       el.authScreen.hidden=false;
 
       return;
+
     }
 
     await restoreSession();
 
   }
 );
-
-
-/*
-  Самое главное изменение:
-
-  При запуске сначала проверяем сохранённую
-  сессию Supabase.
-
-  Если пользователь уже входил —
-  сразу открываем игру.
-
-  Если сессии нет —
-  показываем окно входа.
-*/
 
 async function restoreSession(){
 
@@ -916,7 +918,6 @@ async function restoreSession(){
   }catch(error){
 
     console.error(error);
-
     showAuth();
 
   }finally{
@@ -927,38 +928,19 @@ async function restoreSession(){
 
 }
 
-
-/*
-  Показать окно входа.
-  Оно появляется только если
-  сохранённой сессии нет.
-*/
-
 function showAuth(){
 
   el.gameScreen.hidden=true;
-
   el.authScreen.hidden=false;
 
 }
 
-
-/*
-  Показать игру.
-*/
-
 function showGame(){
 
   el.authScreen.hidden=true;
-
   el.gameScreen.hidden=false;
 
 }
-
-
-/* =========================================
-   ВХОД / РЕГИСТРАЦИЯ
-   ========================================= */
 
 function showLogin(){
 
@@ -982,7 +964,6 @@ function showAuthMessage(t){
 
 }
 
-
 async function register(){
 
   if(!sb){
@@ -1001,7 +982,6 @@ async function register(){
 
   const password =
     el.regPassword.value;
-
 
   if(username.length<3){
 
@@ -1023,7 +1003,6 @@ async function register(){
     "⏳ Создаём аккаунт..."
   );
 
-
   const {
     data,
     error
@@ -1040,7 +1019,6 @@ async function register(){
 
   });
 
-
   if(error){
 
     return showAuthMessage(
@@ -1048,7 +1026,6 @@ async function register(){
     );
 
   }
-
 
   if(data.session){
 
@@ -1066,7 +1043,6 @@ async function register(){
 
 }
 
-
 async function login(){
 
   if(!sb){
@@ -1077,13 +1053,11 @@ async function login(){
 
   }
 
-
   const email =
     el.loginEmail.value.trim();
 
   const password =
     el.loginPassword.value;
-
 
   if(!email || !password){
 
@@ -1093,11 +1067,9 @@ async function login(){
 
   }
 
-
   showAuthMessage(
     "⏳ Входим..."
   );
-
 
   const {
     data,
@@ -1109,7 +1081,6 @@ async function login(){
 
   });
 
-
   if(error){
 
     return showAuthMessage(
@@ -1117,7 +1088,6 @@ async function login(){
     );
 
   }
-
 
   if(data.session){
 
@@ -1127,14 +1097,6 @@ async function login(){
 
 }
 
-
-/*
-  ВЫХОД ИЗ АККАУНТА
-
-  Именно после этого при следующем запуске
-  снова появится окно входа.
-*/
-
 async function logout(){
 
   stopPresence();
@@ -1143,8 +1105,13 @@ async function logout(){
 
   profile=null;
 
-  el.gameScreen.hidden=true;
+  const adminNav =
+    document.getElementById("adminNav");
 
+  if(adminNav)
+    adminNav.remove();
+
+  el.gameScreen.hidden=true;
   el.authScreen.hidden=false;
 
   showLogin();
@@ -1155,18 +1122,12 @@ async function logout(){
 
 }
 
-
-/* =========================================
-   ВХОД В ИГРУ
-   ========================================= */
-
 async function enterGame(){
 
   const {
     data,
     error
   } = await sb.rpc("get_my_game");
-
 
   if(error){
 
@@ -1182,8 +1143,8 @@ async function enterGame(){
     );
 
     return;
-  }
 
+  }
 
   profile=data;
 
@@ -1195,7 +1156,6 @@ async function enterGame(){
 
   await refreshOnline();
 
-
   if(profile.role==="admin"){
 
     addAdminNav();
@@ -1204,47 +1164,34 @@ async function enterGame(){
 
 }
 
-
-/* =========================================
-   ОТОБРАЖЕНИЕ ИГРЫ
-   ========================================= */
-
 function renderAll(){
 
   el.playerName.textContent =
     profile.username +
     (profile.vip_level>0 ? " 👑 VIP" : "");
 
-
   el.settingsName.textContent =
     profile.username;
 
-
   el.money.textContent =
     moneyFmt(profile.money);
-
 
   el.income.textContent =
     "+ " +
     moneyFmt(profile.income) +
     " / сек";
 
-
   el.btc.textContent =
     Number(profile.btc).toFixed(4);
-
 
   el.clicks.textContent =
     numberFmt(profile.clicks);
 
-
   el.level.textContent =
     numberFmt(profile.bank_level);
 
-
   el.rep.textContent =
     numberFmt(profile.rep);
-
 
   renderUpgrades();
 
@@ -1253,7 +1200,6 @@ function renderAll(){
   renderAchievements();
 
 }
-
 
 function moneyFmt(n){
 
@@ -1267,7 +1213,6 @@ function moneyFmt(n){
 
 }
 
-
 function numberFmt(n){
 
   return Number(n||0).toLocaleString(
@@ -1276,11 +1221,6 @@ function numberFmt(n){
 
 }
 
-
-/* =========================================
-   КЛИКЕР
-   ========================================= */
-
 async function clickBank(){
 
   const {
@@ -1288,25 +1228,18 @@ async function clickBank(){
     error
   } = await sb.rpc("click_bank");
 
-
   if(error){
 
     toast(error.message);
-
     return;
-  }
 
+  }
 
   profile=data;
 
   renderAll();
 
 }
-
-
-/* =========================================
-   УЛУЧШЕНИЯ
-   ========================================= */
 
 async function buyUpgrade(id){
 
@@ -1320,13 +1253,11 @@ async function buyUpgrade(id){
     }
   );
 
-
   if(error){
 
     return toast(error.message);
 
   }
-
 
   profile=data;
 
@@ -1337,7 +1268,6 @@ async function buyUpgrade(id){
   );
 
 }
-
 
 function renderUpgrades(){
 
@@ -1353,12 +1283,10 @@ function renderUpgrades(){
         incomeAdd
       ]=x;
 
-
       const owned =
         Number(
           profile.upgrades?.[id]||0
         );
-
 
       return `
         <div class="item">
@@ -1394,11 +1322,6 @@ function renderUpgrades(){
 
 }
 
-
-/* =========================================
-   МАГАЗИН
-   ========================================= */
-
 async function buyShop(id){
 
   const {
@@ -1411,13 +1334,11 @@ async function buyShop(id){
     }
   );
 
-
   if(error){
 
     return toast(error.message);
 
   }
-
 
   profile=data;
 
@@ -1428,7 +1349,6 @@ async function buyShop(id){
   );
 
 }
-
 
 function renderShop(){
 
@@ -1443,10 +1363,8 @@ function renderShop(){
         bonus
       ]=x;
 
-
       const owned =
         !!profile.shop?.[id];
-
 
       return `
         <div class="item">
@@ -1480,11 +1398,6 @@ function renderShop(){
 
 }
 
-
-/* =========================================
-   ДОСТИЖЕНИЯ
-   ========================================= */
-
 function renderAchievements(){
 
   el.achievementList.innerHTML =
@@ -1497,9 +1410,7 @@ function renderAchievements(){
         check
       ]=a;
 
-
       const ok=check(profile);
-
 
       return `
         <div
@@ -1525,11 +1436,6 @@ function renderAchievements(){
 
 }
 
-
-/* =========================================
-   BITCOIN
-   ========================================= */
-
 async function buyBTC(){
 
   const {
@@ -1542,13 +1448,11 @@ async function buyBTC(){
     }
   );
 
-
   if(error){
 
     return toast(error.message);
 
   }
-
 
   profile=data;
 
@@ -1559,7 +1463,6 @@ async function buyBTC(){
   );
 
 }
-
 
 async function sellBTC(){
 
@@ -1573,13 +1476,11 @@ async function sellBTC(){
     }
   );
 
-
   if(error){
 
     return toast(error.message);
 
   }
-
 
   profile=data;
 
@@ -1590,7 +1491,6 @@ async function sellBTC(){
   );
 
 }
-
 
 setInterval(()=>{
 
@@ -1608,7 +1508,6 @@ setInterval(()=>{
       )
     );
 
-
   if(el.btcPrice){
 
     el.btcPrice.textContent =
@@ -1618,11 +1517,6 @@ setInterval(()=>{
 
 },5000);
 
-
-/* =========================================
-   НАВИГАЦИЯ
-   ========================================= */
-
 function nav(id){
 
   document
@@ -1631,13 +1525,10 @@ function nav(id){
       x=>x.classList.remove("active")
     );
 
-
   $(id).classList.add("active");
-
 
   if(id==="players")
     refreshOnline();
-
 
   if(
     id==="admin" &&
@@ -1650,30 +1541,21 @@ function nav(id){
 
 }
 
-
-/* =========================================
-   ОНЛАЙН
-   ========================================= */
-
 async function refreshOnline(){
 
   if(!onlineChannel)
     return;
 
-
   const state =
     onlineChannel.presenceState();
 
-
   const users=[];
-
 
   Object.values(state)
     .flat()
     .forEach(
       p=>users.push(p)
     );
-
 
   const unique=[
     ...new Map(
@@ -1683,14 +1565,11 @@ async function refreshOnline(){
     ).values()
   ];
 
-
   el.onlineCount.textContent =
     unique.length||1;
 
-
   el.playersCountText.textContent =
     unique.length||1;
-
 
   el.playersList.innerHTML =
     unique.map(
@@ -1718,11 +1597,9 @@ async function refreshOnline(){
 
 }
 
-
 function startPresence(){
 
   stopPresence();
-
 
   onlineChannel =
     sb.channel(
@@ -1735,7 +1612,6 @@ function startPresence(){
         }
       }
     );
-
 
   onlineChannel
 
@@ -1776,14 +1652,12 @@ function startPresence(){
 
           });
 
-
           refreshOnline();
 
         }
 
       }
     );
-
 
   presenceTimer =
     setInterval(
@@ -1792,7 +1666,6 @@ function startPresence(){
     );
 
 }
-
 
 function stopPresence(){
 
@@ -1806,7 +1679,6 @@ function stopPresence(){
 
   }
 
-
   if(onlineChannel){
 
     sb.removeChannel(
@@ -1819,26 +1691,18 @@ function stopPresence(){
 
 }
 
-
-/* =========================================
-   АДМИН
-   ========================================= */
-
 function addAdminNav(){
 
   if(document.getElementById("adminNav"))
     return;
-
 
   const navEl =
     document.querySelector(
       ".bottom-nav"
     );
 
-
   const b =
     document.createElement("button");
-
 
   b.id="adminNav";
 
@@ -1846,15 +1710,12 @@ function addAdminNav(){
     nav("admin");
   };
 
-
   b.innerHTML=
     "🛡️<span>Админ</span>";
-
 
   navEl.appendChild(b);
 
 }
-
 
 async function loadAdminPlayers(){
 
@@ -1865,7 +1726,6 @@ async function loadAdminPlayers(){
     "admin_list_players"
   );
 
-
   if(error){
 
     return toast(
@@ -1873,7 +1733,6 @@ async function loadAdminPlayers(){
     );
 
   }
-
 
   el.adminPlayers.innerHTML =
     data.map(
@@ -1934,6 +1793,20 @@ async function loadAdminPlayers(){
               💵 Выдать
             </button>
 
+            <input
+              id="tm_${p.id}"
+              type="number"
+              min="0"
+              placeholder="Сколько забрать"
+            >
+
+            <button
+              class="takeBtn"
+              onclick="adminTake('${p.id}','money')"
+            >
+              💵 Забрать
+            </button>
+
 
             <input
               id="b_${p.id}"
@@ -1949,6 +1822,21 @@ async function loadAdminPlayers(){
               ₿ Выдать
             </button>
 
+            <input
+              id="tb_${p.id}"
+              type="number"
+              min="0"
+              step="0.0001"
+              placeholder="BTC забрать"
+            >
+
+            <button
+              class="takeBtn"
+              onclick="adminTake('${p.id}','btc')"
+            >
+              ₿ Забрать
+            </button>
+
 
             <input
               id="u_${p.id}"
@@ -1961,6 +1849,20 @@ async function loadAdminPlayers(){
               onclick="adminGive('${p.id}','upgrades')"
             >
               ⚡ Выдать
+            </button>
+
+            <input
+              id="tu_${p.id}"
+              type="number"
+              min="0"
+              placeholder="Улучшения забрать"
+            >
+
+            <button
+              class="takeBtn"
+              onclick="adminTake('${p.id}','upgrades')"
+            >
+              ⚡ Забрать
             </button>
 
 
@@ -1990,11 +1892,9 @@ async function loadAdminPlayers(){
 
 }
 
-
 async function adminGive(id,type){
 
   let amount=0;
-
 
   if(type==="money")
     amount=
@@ -2004,7 +1904,6 @@ async function adminGive(id,type){
         ).value
       );
 
-
   if(type==="btc")
     amount=
       Number(
@@ -2012,7 +1911,6 @@ async function adminGive(id,type){
           "b_"+id
         ).value
       );
-
 
   if(type==="upgrades")
     amount=
@@ -2022,7 +1920,6 @@ async function adminGive(id,type){
         ).value
       );
 
-
   if(type==="vip")
     amount=
       Number(
@@ -2030,7 +1927,6 @@ async function adminGive(id,type){
           "v_"+id
         ).value
       );
-
 
   if(
     !Number.isFinite(amount) ||
@@ -2043,7 +1939,6 @@ async function adminGive(id,type){
 
   }
 
-
   const {error} =
     await sb.rpc(
       "admin_grant",
@@ -2054,7 +1949,6 @@ async function adminGive(id,type){
       }
     );
 
-
   if(error){
 
     return toast(
@@ -2063,20 +1957,81 @@ async function adminGive(id,type){
 
   }
 
-
   toast(
-    "✅ Изменение применено"
+    "✅ Выдано"
   );
-
 
   loadAdminPlayers();
 
 }
 
+async function adminTake(id,type){
 
-/* =========================================
-   ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
-   ========================================= */
+  let amount=0;
+
+  if(type==="money")
+    amount=
+      Number(
+        document.getElementById(
+          "tm_"+id
+        ).value
+      );
+
+  if(type==="btc")
+    amount=
+      Number(
+        document.getElementById(
+          "tb_"+id
+        ).value
+      );
+
+  if(type==="upgrades")
+    amount=
+      Number(
+        document.getElementById(
+          "tu_"+id
+        ).value
+      );
+
+  if(
+    !Number.isFinite(amount) ||
+    amount<=0
+  ){
+
+    return toast(
+      "Укажи количество больше 0."
+    );
+
+  }
+
+  const {
+    data,
+    error
+  } =
+    await sb.rpc(
+      "admin_take",
+      {
+        p_user_id:id,
+        p_type:type,
+        p_amount:amount
+      }
+    );
+
+  if(error){
+
+    return toast(
+      "❌ " + error.message
+    );
+
+  }
+
+  toast(
+    "✅ Забрано"
+  );
+
+  loadAdminPlayers();
+
+}
 
 function escapeHtml(s){
 
@@ -2094,7 +2049,6 @@ function escapeHtml(s){
   );
 
 }
-
 
 function toast(t){
 
@@ -2114,4 +2068,4 @@ function toast(t){
 </script>
 
 </body>
-    </html>
+</html>
