@@ -1,13 +1,24 @@
 <!doctype html>
 <html lang="ru">
 <head>
+
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#1677ff">
+
+  <meta
+    name="viewport"
+    content="width=device-width,initial-scale=1,viewport-fit=cover"
+  >
+
+  <meta
+    name="theme-color"
+    content="#1677ff"
+  >
 
   <title>Bank Clicker Online</title>
 
+
   <style>
+
     *{
       box-sizing:border-box
     }
@@ -27,6 +38,11 @@
       border:0;
       cursor:pointer
     }
+
+
+    /* =========================
+       ЗАГРУЗКА
+       ========================= */
 
     #loadingScreen{
       position:fixed;
@@ -54,6 +70,11 @@
       font-weight:700;
       margin-top:10px
     }
+
+
+    /* =========================
+       АВТОРИЗАЦИЯ
+       ========================= */
 
     .screen{
       min-height:100vh;
@@ -133,6 +154,11 @@
       color:#c62828
     }
 
+
+    /* =========================
+       ВЕРХНЯЯ ПАНЕЛЬ
+       ========================= */
+
     .top{
       position:sticky;
       top:0;
@@ -160,6 +186,11 @@
       padding:8px 11px;
       border-radius:20px
     }
+
+
+    /* =========================
+       ОСНОВНАЯ ЧАСТЬ
+       ========================= */
 
     main{
       max-width:480px;
@@ -195,6 +226,11 @@
       font-weight:700
     }
 
+
+    /* =========================
+       КНОПКА БАНКА
+       ========================= */
+
     .bankButton{
       width:100%;
       height:220px;
@@ -227,6 +263,11 @@
       opacity:.85
     }
 
+
+    /* =========================
+       СТАТИСТИКА
+       ========================= */
+
     .stats-grid{
       display:grid;
       grid-template-columns:1fr 1fr;
@@ -249,6 +290,11 @@
       color:#718096;
       font-size:13px
     }
+
+
+    /* =========================
+       ПРЕДМЕТЫ
+       ========================= */
 
     .item{
       background:white;
@@ -296,6 +342,11 @@
       margin:5px 0 15px
     }
 
+
+    /* =========================
+       BITCOIN
+       ========================= */
+
     .btcActions{
       display:grid;
       grid-template-columns:1fr 1fr;
@@ -305,6 +356,11 @@
     .btcActions button{
       margin:0
     }
+
+
+    /* =========================
+       ДОСТИЖЕНИЯ
+       ========================= */
 
     .achievement{
       display:flex;
@@ -319,6 +375,11 @@
     .achievement.locked{
       opacity:.45
     }
+
+
+    /* =========================
+       ИГРОКИ
+       ========================= */
 
     .players-row{
       display:flex;
@@ -335,6 +396,11 @@
     .dot{
       color:#17a05e
     }
+
+
+    /* =========================
+       АДМИН
+       ========================= */
 
     .admin-player{
       background:#f7f9fc;
@@ -366,16 +432,21 @@
     }
 
     .takeBtn{
-      background:#e53935!important;
+      background:#e53935!important
     }
 
     .takeBtn:active{
-      background:#c62828!important;
+      background:#c62828!important
     }
 
     .vipBtn{
       background:#8b5cf6!important
     }
+
+
+    /* =========================
+       НИЖНЯЯ НАВИГАЦИЯ
+       ========================= */
 
     .bottom-nav{
       position:fixed;
@@ -388,7 +459,8 @@
       background:white;
       border-top:1px solid #e7ebf1;
       padding:7px 3px calc(7px + env(safe-area-inset-bottom));
-      z-index:10
+      z-index:10;
+      overflow-x:auto
     }
 
     .bottom-nav button{
@@ -398,7 +470,8 @@
       display:flex;
       flex-direction:column;
       align-items:center;
-      gap:2px
+      gap:2px;
+      min-width:55px
     }
 
     .bottom-nav span{
@@ -408,6 +481,11 @@
     .bottom-nav button:hover{
       color:#1677ff
     }
+
+
+    /* =========================
+       TOAST
+       ========================= */
 
     #toast{
       position:fixed;
@@ -429,7 +507,9 @@
       transform:translateX(-50%) translateY(0)
     }
 
+
     @media(max-width:380px){
+
       .bottom-nav button span{
         font-size:9px
       }
@@ -437,36 +517,60 @@
       .balance{
         font-size:31px
       }
+
     }
+
   </style>
 
+
+  <!-- ИСПРАВЛЕННАЯ ЗАГРУЗКА SUPABASE -->
   <script
-    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"
     onerror="window.__SUPABASE_CDN_ERROR=true">
   </script>
+
 </head>
+
 
 <body>
 
-<!-- ЗАГРУЗКА -->
+
+<!-- =========================
+     ЗАГРУЗКА
+     ========================= -->
+
 <div id="loadingScreen">
+
   <div class="loadingBox">
-    <div class="loadingLogo">🏦</div>
+
+    <div class="loadingLogo">
+      🏦
+    </div>
+
     <div class="loadingText">
       Загружаем Bank Clicker...
     </div>
+
   </div>
+
 </div>
 
 
-<!-- АВТОРИЗАЦИЯ -->
+<!-- =========================
+     АВТОРИЗАЦИЯ
+     ========================= -->
+
 <div id="authScreen" class="screen" hidden>
 
   <div class="auth-card">
 
-    <div class="logo">🏦</div>
+    <div class="logo">
+      🏦
+    </div>
 
-    <h1>Bank Clicker Online</h1>
+    <h1>
+      Bank Clicker Online
+    </h1>
 
     <p class="muted">
       Твой виртуальный банк теперь онлайн.
@@ -474,6 +578,7 @@
 
 
     <!-- ВХОД -->
+
     <div id="loginBox">
 
       <input
@@ -508,6 +613,7 @@
 
 
     <!-- РЕГИСТРАЦИЯ -->
+
     <div id="registerBox" hidden>
 
       <input
@@ -548,14 +654,22 @@
     </div>
 
 
-    <div id="authMessage" class="message"></div>
+    <div
+      id="authMessage"
+      class="message">
+    </div>
 
   </div>
+
 </div>
 
 
-<!-- ИГРА -->
+<!-- =========================
+     ИГРА
+     ========================= -->
+
 <div id="gameScreen" hidden>
+
 
   <header class="top">
 
@@ -573,8 +687,13 @@
     </div>
 
     <div class="onlineBadge">
+
       🟢
-      <span id="onlineCount">1</span>
+
+      <span id="onlineCount">
+        1
+      </span>
+
     </div>
 
   </header>
@@ -583,7 +702,10 @@
   <main>
 
 
-    <!-- ГЛАВНАЯ -->
+    <!-- =========================
+         ГЛАВНАЯ
+         ========================= -->
+
     <section
       id="home"
       class="section active">
@@ -614,9 +736,13 @@
         class="bankButton"
         onclick="clickBank()">
 
-        <span>🏦</span>
+        <span>
+          🏦
+        </span>
 
-        <b>НАЖМИ</b>
+        <b>
+          НАЖМИ
+        </b>
 
         <small>
           заработать деньги
@@ -628,23 +754,54 @@
       <div class="stats-grid">
 
         <div class="stat">
-          <b id="btc">0</b>
-          <span>₿ Bitcoin</span>
+
+          <b id="btc">
+            0
+          </b>
+
+          <span>
+            ₿ Bitcoin
+          </span>
+
         </div>
 
-        <div class="stat">
-          <b id="clicks">0</b>
-          <span>Кликов</span>
-        </div>
 
         <div class="stat">
-          <b id="level">1</b>
-          <span>Уровень</span>
+
+          <b id="clicks">
+            0
+          </b>
+
+          <span>
+            Кликов
+          </span>
+
         </div>
 
+
         <div class="stat">
-          <b id="rep">0</b>
-          <span>Репутация</span>
+
+          <b id="level">
+            1
+          </b>
+
+          <span>
+            Уровень
+          </span>
+
+        </div>
+
+
+        <div class="stat">
+
+          <b id="rep">
+            0
+          </b>
+
+          <span>
+            Репутация
+          </span>
+
         </div>
 
       </div>
@@ -652,24 +809,34 @@
     </section>
 
 
-    <!-- УЛУЧШЕНИЯ -->
+    <!-- =========================
+         УЛУЧШЕНИЯ
+         ========================= -->
+
     <section
       id="upgrades"
       class="section">
 
-      <h2>⚡ Улучшения</h2>
+      <h2>
+        ⚡ Улучшения
+      </h2>
 
       <div id="upgradeList"></div>
 
     </section>
 
 
-    <!-- BITCOIN -->
+    <!-- =========================
+         BITCOIN
+         ========================= -->
+
     <section
       id="bitcoin"
       class="section">
 
-      <h2>₿ Bitcoin</h2>
+      <h2>
+        ₿ Bitcoin
+      </h2>
 
       <div class="card">
 
@@ -688,13 +855,17 @@
           <button
             class="primary"
             onclick="buyBTC()">
+
             Купить 1 BTC
+
           </button>
 
           <button
             class="secondary"
             onclick="sellBTC()">
+
             Продать 1 BTC
+
           </button>
 
         </div>
@@ -704,36 +875,51 @@
     </section>
 
 
-    <!-- МАГАЗИН -->
+    <!-- =========================
+         МАГАЗИН
+         ========================= -->
+
     <section
       id="shop"
       class="section">
 
-      <h2>🛒 Магазин</h2>
+      <h2>
+        🛒 Магазин
+      </h2>
 
       <div id="shopList"></div>
 
     </section>
 
 
-    <!-- ДОСТИЖЕНИЯ -->
+    <!-- =========================
+         ДОСТИЖЕНИЯ
+         ========================= -->
+
     <section
       id="achievements"
       class="section">
 
-      <h2>🏆 Достижения</h2>
+      <h2>
+        🏆 Достижения
+      </h2>
 
       <div id="achievementList"></div>
 
     </section>
 
 
-    <!-- ИГРОКИ -->
+    <!-- =========================
+         ИГРОКИ
+         ========================= -->
+
     <section
       id="players"
       class="section">
 
-      <h2>🌐 Игроки онлайн</h2>
+      <h2>
+        🌐 Игроки онлайн
+      </h2>
 
       <div class="card">
 
@@ -754,18 +940,26 @@
     </section>
 
 
-    <!-- НАСТРОЙКИ -->
+    <!-- =========================
+         НАСТРОЙКИ
+         ========================= -->
+
     <section
       id="settings"
       class="section">
 
-      <h2>⚙️ Настройки</h2>
+      <h2>
+        ⚙️ Настройки
+      </h2>
 
       <div class="card">
 
         <p>
+
           👤
+
           <b id="settingsName"></b>
+
         </p>
 
         <p class="muted">
@@ -785,18 +979,25 @@
     </section>
 
 
-    <!-- АДМИН -->
+    <!-- =========================
+         АДМИН
+         ========================= -->
+
     <section
       id="admin"
       class="section">
 
-      <h2>🛡️ Панель разработчика</h2>
+      <h2>
+        🛡️ Панель разработчика
+      </h2>
 
       <div class="card">
 
         <p class="muted">
+
           Доступ разрешён только аккаунту
           с ролью admin на сервере.
+
         </p>
 
         <button
@@ -813,40 +1014,79 @@
 
     </section>
 
+
   </main>
 
 
-  <!-- НИЖНЯЯ НАВИГАЦИЯ -->
+  <!-- =========================
+       НИЖНЯЯ НАВИГАЦИЯ
+       ========================= -->
+
   <nav class="bottom-nav">
 
     <button onclick="nav('home')">
+
       🏠
-      <span>Главная</span>
+
+      <span>
+        Главная
+      </span>
+
     </button>
+
 
     <button onclick="nav('upgrades')">
+
       ⚡
-      <span>Улучшения</span>
+
+      <span>
+        Улучшения
+      </span>
+
     </button>
+
 
     <button onclick="nav('bitcoin')">
+
       ₿
-      <span>Bitcoin</span>
+
+      <span>
+        Bitcoin
+      </span>
+
     </button>
+
 
     <button onclick="nav('shop')">
+
       🛒
-      <span>Магазин</span>
+
+      <span>
+        Магазин
+      </span>
+
     </button>
+
 
     <button onclick="nav('players')">
+
       🌐
-      <span>Онлайн</span>
+
+      <span>
+        Онлайн
+      </span>
+
     </button>
 
+
     <button onclick="nav('settings')">
+
       ⚙️
-      <span>Ещё</span>
+
+      <span>
+        Ещё
+      </span>
+
     </button>
 
   </nav>
@@ -859,6 +1099,11 @@
 
 <script>
 
+
+/* =========================================
+   SUPABASE
+   ========================================= */
+
 window.SUPABASE_URL =
   'https://qamydpwlzgqyisjktuod.supabase.co';
 
@@ -869,6 +1114,7 @@ window.SUPABASE_ANON_KEY =
 let sb = null;
 let profile = null;
 
+
 const $ = (id) =>
   document.getElementById(id);
 
@@ -876,39 +1122,55 @@ const $ = (id) =>
 const el = {
 
   authScreen:$("authScreen"),
+
   gameScreen:$("gameScreen"),
+
   loadingScreen:$("loadingScreen"),
 
   loginBox:$("loginBox"),
+
   registerBox:$("registerBox"),
 
   loginEmail:$("loginEmail"),
+
   loginPassword:$("loginPassword"),
 
   regUsername:$("regUsername"),
+
   regEmail:$("regEmail"),
+
   regPassword:$("regPassword"),
 
   authMessage:$("authMessage"),
 
   playerName:$("playerName"),
+
   settingsName:$("settingsName"),
 
   money:$("money"),
+
   income:$("income"),
+
   btc:$("btc"),
+
   clicks:$("clicks"),
+
   level:$("level"),
+
   rep:$("rep"),
 
   upgradeList:$("upgradeList"),
+
   shopList:$("shopList"),
+
   achievementList:$("achievementList"),
 
   btcPrice:$("btcPrice"),
 
   onlineCount:$("onlineCount"),
+
   playersCountText:$("playersCountText"),
+
   playersList:$("playersList"),
 
   adminPlayers:$("adminPlayers"),
@@ -920,17 +1182,31 @@ const el = {
 
 function hasSupabaseConfig(){
 
-  return typeof window.supabase !== "undefined" &&
+  return (
 
-    typeof window.SUPABASE_URL === "string" &&
+    typeof window.supabase !== "undefined"
 
-    typeof window.SUPABASE_ANON_KEY === "string" &&
+    &&
 
-    !window.SUPABASE_URL.includes("YOUR-") &&
+    typeof window.SUPABASE_URL === "string"
 
-    !window.SUPABASE_ANON_KEY.includes("YOUR_") &&
+    &&
 
-    window.SUPABASE_URL.startsWith("http");
+    typeof window.SUPABASE_ANON_KEY === "string"
+
+    &&
+
+    !window.SUPABASE_URL.includes("YOUR-")
+
+    &&
+
+    !window.SUPABASE_ANON_KEY.includes("YOUR_")
+
+    &&
+
+    window.SUPABASE_URL.startsWith("http")
+
+  );
 
 }
 
@@ -944,6 +1220,7 @@ function initSupabase(){
     );
 
     return false;
+
   }
 
 
@@ -957,6 +1234,7 @@ function initSupabase(){
     );
 
     return false;
+
   }
 
 
@@ -978,17 +1256,24 @@ function initSupabase(){
     );
 
     return false;
+
   }
 
 }
 
 
 let onlineChannel = null;
+
 let presenceTimer = null;
 
 let btcPrice = 65000;
+
 let lastState = null;
 
+
+/* =========================================
+   УЛУЧШЕНИЯ
+   ========================================= */
 
 const upgrades = [
 
@@ -1021,6 +1306,10 @@ const upgrades = [
 ];
 
 
+/* =========================================
+   МАГАЗИН
+   ========================================= */
+
 const shops = [
 
   ["safe","🔐","Сейф",500,10],
@@ -1035,6 +1324,10 @@ const shops = [
 
 ];
 
+
+/* =========================================
+   ДОСТИЖЕНИЯ
+   ========================================= */
 
 const achievements = [
 
@@ -1097,6 +1390,10 @@ const achievements = [
 ];
 
 
+/* =========================================
+   ЗАПУСК
+   ========================================= */
+
 document.addEventListener(
   "DOMContentLoaded",
   async()=>{
@@ -1108,6 +1405,7 @@ document.addEventListener(
       el.authScreen.hidden=false;
 
       return;
+
     }
 
     await restoreSession();
@@ -1115,6 +1413,10 @@ document.addEventListener(
   }
 );
 
+
+/* =========================================
+   ВОССТАНОВЛЕНИЕ СЕССИИ
+   ========================================= */
 
 async function restoreSession(){
 
@@ -1124,7 +1426,8 @@ async function restoreSession(){
       data:{
         session
       }
-    } = await sb.auth.getSession();
+    } =
+      await sb.auth.getSession();
 
 
     if(session){
@@ -1151,6 +1454,10 @@ async function restoreSession(){
 
 }
 
+
+/* =========================================
+   АВТОРИЗАЦИЯ
+   ========================================= */
 
 function showAuth(){
 
@@ -1198,6 +1505,10 @@ function showAuthMessage(t){
 
 }
 
+
+/* =========================================
+   РЕГИСТРАЦИЯ
+   ========================================= */
 
 async function register(){
 
@@ -1288,6 +1599,10 @@ async function register(){
 }
 
 
+/* =========================================
+   ВХОД
+   ========================================= */
+
 async function login(){
 
   if(!sb){
@@ -1327,6 +1642,7 @@ async function login(){
     await sb.auth.signInWithPassword({
 
       email,
+
       password
 
     });
@@ -1350,6 +1666,10 @@ async function login(){
 }
 
 
+/* =========================================
+   ВЫХОД
+   ========================================= */
+
 async function logout(){
 
   stopPresence();
@@ -1370,6 +1690,10 @@ async function logout(){
 
 }
 
+
+/* =========================================
+   ВХОД В ИГРУ
+   ========================================= */
 
 async function enterGame(){
 
@@ -1396,6 +1720,7 @@ async function enterGame(){
     );
 
     return;
+
   }
 
 
@@ -1418,6 +1743,10 @@ async function enterGame(){
 
 }
 
+
+/* =========================================
+   ОТОБРАЖЕНИЕ
+   ========================================= */
 
 function renderAll(){
 
@@ -1491,6 +1820,10 @@ function numberFmt(n){
 }
 
 
+/* =========================================
+   КЛИК
+   ========================================= */
+
 async function clickBank(){
 
   const {
@@ -1507,6 +1840,7 @@ async function clickBank(){
     toast(error.message);
 
     return;
+
   }
 
 
@@ -1516,6 +1850,10 @@ async function clickBank(){
 
 }
 
+
+/* =========================================
+   УЛУЧШЕНИЯ
+   ========================================= */
 
 async function buyUpgrade(id){
 
@@ -1580,13 +1918,20 @@ function renderUpgrades(){
 
           <div class="itemBody">
 
-            <b>${name}</b>
+            <b>
+              ${name}
+            </b>
 
             <small>
+
               ${moneyFmt(cost)}
+
               · +${clickAdd} к клику
+
               · +${incomeAdd}/сек
+
               · куплено: ${owned}
+
             </small>
 
           </div>
@@ -1606,6 +1951,10 @@ function renderUpgrades(){
 
 }
 
+
+/* =========================================
+   МАГАЗИН
+   ========================================= */
 
 async function buyShop(id){
 
@@ -1667,11 +2016,16 @@ function renderShop(){
 
           <div class="itemBody">
 
-            <b>${name}</b>
+            <b>
+              ${name}
+            </b>
 
             <small>
+
               ${moneyFmt(cost)}
+
               · бонус +${bonus}%
+
             </small>
 
           </div>
@@ -1680,7 +2034,9 @@ function renderShop(){
             onclick="buyShop('${id}')"
             ${owned||profile.money<cost?"disabled":""}
           >
+
             ${owned?"Куплено":"Купить"}
+
           </button>
 
         </div>
@@ -1691,6 +2047,10 @@ function renderShop(){
 
 }
 
+
+/* =========================================
+   ДОСТИЖЕНИЯ
+   ========================================= */
 
 function renderAchievements(){
 
@@ -1714,14 +2074,20 @@ function renderAchievements(){
           class="achievement ${ok?"":"locked"}"
         >
 
-          <span>${icon}</span>
+          <span>
+            ${icon}
+          </span>
 
           <div>
 
-            <b>${name}</b>
+            <b>
+              ${name}
+            </b>
 
             <div class="muted">
+
               ${ok?"Получено":"Не получено"}
+
             </div>
 
           </div>
@@ -1734,6 +2100,10 @@ function renderAchievements(){
 
 }
 
+
+/* =========================================
+   BITCOIN
+   ========================================= */
 
 async function buyBTC(){
 
@@ -1826,6 +2196,10 @@ setInterval(()=>{
 },5000);
 
 
+/* =========================================
+   НАВИГАЦИЯ
+   ========================================= */
+
 function nav(id){
 
   document
@@ -1838,8 +2212,11 @@ function nav(id){
   $(id).classList.add("active");
 
 
-  if(id==="players")
+  if(id==="players"){
+
     refreshOnline();
+
+  }
 
 
   if(
@@ -1853,6 +2230,10 @@ function nav(id){
 
 }
 
+
+/* =========================================
+   ОНЛАЙН
+   ========================================= */
 
 async function refreshOnline(){
 
@@ -1898,10 +2279,13 @@ async function refreshOnline(){
         <div class="players-row">
 
           <span>
+
             🟢
+
             ${escapeHtml(
               p.username||"Игрок"
             )}
+
           </span>
 
           <span>
@@ -1917,6 +2301,10 @@ async function refreshOnline(){
 
 }
 
+
+/* =========================================
+   PRESENCE
+   ========================================= */
 
 function startPresence(){
 
@@ -2060,6 +2448,10 @@ function addAdminNav(){
 }
 
 
+/* =========================================
+   ЗАГРУЗКА ИГРОКОВ
+   ========================================= */
+
 async function loadAdminPlayers(){
 
   const {
@@ -2100,7 +2492,7 @@ async function loadAdminPlayers(){
 
           <div class="muted">
 
-            ${p.email||""}
+            ${escapeHtml(p.email||"")}
 
             ·
 
@@ -2130,9 +2522,12 @@ async function loadAdminPlayers(){
           </div>
 
 
-          <!-- ВЫДАТЬ -->
+          <!-- =========================
+               ВЫДАТЬ
+               ========================= -->
 
           <div class="admin-actions">
+
 
             <input
               id="m_${p.id}"
@@ -2144,7 +2539,9 @@ async function loadAdminPlayers(){
             <button
               onclick="adminGive('${p.id}','money')"
             >
+
               💵 Выдать
+
             </button>
 
 
@@ -2159,7 +2556,9 @@ async function loadAdminPlayers(){
             <button
               onclick="adminGive('${p.id}','btc')"
             >
+
               ₿ Выдать
+
             </button>
 
 
@@ -2173,7 +2572,9 @@ async function loadAdminPlayers(){
             <button
               onclick="adminGive('${p.id}','upgrades')"
             >
+
               ⚡ Выдать
+
             </button>
 
 
@@ -2189,13 +2590,17 @@ async function loadAdminPlayers(){
               class="vipBtn"
               onclick="adminGive('${p.id}','vip')"
             >
+
               👑 VIP
+
             </button>
 
           </div>
 
 
-          <!-- ЗАБРАТЬ -->
+          <!-- =========================
+               ЗАБРАТЬ
+               ========================= -->
 
           <div
             style="
@@ -2206,13 +2611,18 @@ async function loadAdminPlayers(){
           >
 
             <b style="font-size:14px">
+
               🛑 Забрать у игрока
+
             </b>
 
           </div>
 
 
           <div class="admin-actions">
+
+
+            <!-- ДЕНЬГИ -->
 
             <input
               id="tm_${p.id}"
@@ -2226,9 +2636,13 @@ async function loadAdminPlayers(){
               class="takeBtn"
               onclick="adminTake('${p.id}','money')"
             >
+
               💵 Забрать
+
             </button>
 
+
+            <!-- BTC -->
 
             <input
               id="tb_${p.id}"
@@ -2242,9 +2656,13 @@ async function loadAdminPlayers(){
               class="takeBtn"
               onclick="adminTake('${p.id}','btc')"
             >
+
               ₿ Забрать
+
             </button>
 
+
+            <!-- УЛУЧШЕНИЯ -->
 
             <input
               id="tu_${p.id}"
@@ -2258,8 +2676,11 @@ async function loadAdminPlayers(){
               class="takeBtn"
               onclick="adminTake('${p.id}','upgrades')"
             >
+
               ⚡ Забрать
+
             </button>
+
 
           </div>
 
@@ -2358,7 +2779,7 @@ async function adminGive(id,type){
   if(error){
 
     return toast(
-      error.message
+      "❌ " + error.message
     );
 
   }
@@ -2475,9 +2896,13 @@ function escapeHtml(s){
     m=>({
 
       "&":"&amp;",
+
       "<":"&lt;",
+
       ">":"&gt;",
+
       '"':"&quot;",
+
       "'":"&#039;"
 
     }[m])
@@ -2501,7 +2926,8 @@ function toast(t){
 
 }
 
+
 </script>
 
 </body>
-</html>
+  </html>
