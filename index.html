@@ -1,359 +1,465 @@
 <!doctype html>
 <html lang="ru">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#1677ff">
-<title>Bank Clicker Online</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#1677ff">
 
-<style>
-*{box-sizing:border-box}
+  <title>Bank Clicker Online</title>
 
-body{
-  margin:0;
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
-  background:#f4f7fb;
-  color:#172033
-}
+  <style>
+    *{
+      box-sizing:border-box
+    }
 
-button,input{font:inherit}
-button{border:0;cursor:pointer}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+      background:#f4f7fb;
+      color:#172033
+    }
 
-#loadingScreen{
-  position:fixed;
-  inset:0;
-  background:#f4f7fb;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:999
-}
+    button,input{
+      font:inherit
+    }
 
-.loadingBox{
-  background:white;
-  padding:30px;
-  border-radius:24px;
-  text-align:center;
-  box-shadow:0 15px 45px #10204018
-}
+    button{
+      border:0;
+      cursor:pointer
+    }
 
-.loadingLogo{font-size:55px}
-.loadingText{font-weight:700;margin-top:10px}
+    #loadingScreen{
+      position:fixed;
+      inset:0;
+      background:#f4f7fb;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      z-index:999
+    }
 
-.screen{
-  min-height:100vh;
-  display:grid;
-  place-items:center;
-  padding:20px
-}
+    .loadingBox{
+      background:white;
+      padding:30px;
+      border-radius:24px;
+      text-align:center;
+      box-shadow:0 15px 45px #10204018
+    }
 
-.auth-card{
-  width:min(430px,100%);
-  background:white;
-  border-radius:24px;
-  padding:28px;
-  box-shadow:0 15px 45px #10204018;
-  text-align:center
-}
+    .loadingLogo{
+      font-size:55px
+    }
 
-.logo{font-size:58px}
-.auth-card h1{margin:8px 0}
-.muted{color:#718096}
+    .loadingText{
+      font-weight:700;
+      margin-top:10px
+    }
 
-.auth-card input{
-  width:100%;
-  padding:14px 15px;
-  margin:7px 0;
-  border:1px solid #d9e1ec;
-  border-radius:12px;
-  outline:none
-}
+    .screen{
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      padding:20px
+    }
 
-.auth-card input:focus{border-color:#1677ff}
+    .auth-card{
+      width:min(430px,100%);
+      background:white;
+      border-radius:24px;
+      padding:28px;
+      box-shadow:0 15px 45px #10204018;
+      text-align:center
+    }
 
-.primary,.secondary,.danger,.linkBtn{
-  width:100%;
-  padding:13px 15px;
-  border-radius:12px;
-  margin-top:9px;
-  font-weight:700
-}
+    .logo{
+      font-size:58px
+    }
 
-.primary{background:#1677ff;color:white}
-.secondary{background:#eaf2ff;color:#1464d2}
-.danger{background:#ffe9e9;color:#c62828}
-.linkBtn{background:transparent;color:#1677ff}
+    .auth-card h1{
+      margin:8px 0
+    }
 
-.message{
-  min-height:24px;
-  margin-top:12px;
-  color:#c62828
-}
+    .muted{
+      color:#718096
+    }
 
-.top{
-  position:sticky;
-  top:0;
-  z-index:5;
-  background:#1677ff;
-  color:white;
-  padding:16px max(16px,calc((100% - 480px)/2 + 16px));
-  display:flex;
-  justify-content:space-between;
-  align-items:center
-}
+    .auth-card input{
+      width:100%;
+      padding:14px 15px;
+      margin:7px 0;
+      border:1px solid #d9e1ec;
+      border-radius:12px;
+      outline:none
+    }
 
-.brand{font-size:20px;font-weight:800}
-.small{font-size:12px;opacity:.85}
-.onlineBadge{background:#ffffff22;padding:8px 11px;border-radius:20px}
+    .auth-card input:focus{
+      border-color:#1677ff
+    }
 
-main{
-  max-width:480px;
-  margin:auto;
-  padding:18px 14px 100px
-}
+    .primary,
+    .secondary,
+    .danger,
+    .linkBtn{
+      width:100%;
+      padding:13px 15px;
+      border-radius:12px;
+      margin-top:9px;
+      font-weight:700
+    }
 
-.section{display:none}
-.section.active{display:block}
+    .primary{
+      background:#1677ff;
+      color:white
+    }
 
-.balance-card,.card{
-  background:white;
-  border-radius:20px;
-  padding:18px;
-  margin-bottom:14px;
-  box-shadow:0 8px 25px #1720330c
-}
+    .secondary{
+      background:#eaf2ff;
+      color:#1464d2
+    }
 
-.balance{
-  font-size:38px;
-  font-weight:900;
-  margin:5px 0
-}
+    .danger{
+      background:#ffe9e9;
+      color:#c62828
+    }
 
-.income{
-  color:#16834b;
-  font-weight:700
-}
+    .linkBtn{
+      background:transparent;
+      color:#1677ff
+    }
 
-.bankButton{
-  width:100%;
-  height:220px;
-  border-radius:32px;
-  background:linear-gradient(145deg,#1677ff,#004ac2);
-  color:white;
-  box-shadow:0 15px 30px #1677ff55;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:5px;
-  margin:18px 0;
-  transition:.08s
-}
+    .message{
+      min-height:24px;
+      margin-top:12px;
+      color:#c62828
+    }
 
-.bankButton:active{transform:scale(.97)}
-.bankButton span{font-size:65px}
-.bankButton b{font-size:26px}
-.bankButton small{opacity:.85}
+    .top{
+      position:sticky;
+      top:0;
+      z-index:5;
+      background:#1677ff;
+      color:white;
+      padding:16px max(16px,calc((100% - 480px)/2 + 16px));
+      display:flex;
+      justify-content:space-between;
+      align-items:center
+    }
 
-.stats-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px
-}
+    .brand{
+      font-size:20px;
+      font-weight:800
+    }
 
-.stat{
-  background:white;
-  padding:16px;
-  border-radius:16px;
-  box-shadow:0 5px 20px #1720330a
-}
+    .small{
+      font-size:12px;
+      opacity:.85
+    }
 
-.stat b{
-  display:block;
-  font-size:22px
-}
+    .onlineBadge{
+      background:#ffffff22;
+      padding:8px 11px;
+      border-radius:20px
+    }
 
-.stat span{
-  color:#718096;
-  font-size:13px
-}
+    main{
+      max-width:480px;
+      margin:auto;
+      padding:18px 14px 100px
+    }
 
-.item{
-  background:white;
-  border-radius:18px;
-  padding:15px;
-  margin:10px 0;
-  box-shadow:0 5px 20px #1720330a;
-  display:flex;
-  gap:12px;
-  align-items:center
-}
+    .section{
+      display:none
+    }
 
-.itemIcon{font-size:32px}
-.itemBody{flex:1}
-.itemBody b{display:block}
-.itemBody small{color:#718096}
+    .section.active{
+      display:block
+    }
 
-.item button{
-  padding:10px 12px;
-  border-radius:10px;
-  background:#1677ff;
-  color:white;
-  font-weight:700
-}
+    .balance-card,
+    .card{
+      background:white;
+      border-radius:20px;
+      padding:18px;
+      margin-bottom:14px;
+      box-shadow:0 8px 25px #1720330c
+    }
 
-.item button:disabled{
-  background:#ccd5e2;
-  color:#667085
-}
+    .balance{
+      font-size:38px;
+      font-weight:900;
+      margin:5px 0
+    }
 
-.big{
-  font-size:34px;
-  font-weight:900;
-  margin:5px 0 15px
-}
+    .income{
+      color:#16834b;
+      font-weight:700
+    }
 
-.btcActions{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px
-}
+    .bankButton{
+      width:100%;
+      height:220px;
+      border-radius:32px;
+      background:linear-gradient(145deg,#1677ff,#004ac2);
+      color:white;
+      box-shadow:0 15px 30px #1677ff55;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:5px;
+      margin:18px 0;
+      transition:.08s
+    }
 
-.btcActions button{margin:0}
+    .bankButton:active{
+      transform:scale(.97)
+    }
 
-.achievement{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  background:white;
-  padding:14px;
-  border-radius:16px;
-  margin:8px 0
-}
+    .bankButton span{
+      font-size:65px
+    }
 
-.achievement.locked{opacity:.45}
+    .bankButton b{
+      font-size:26px
+    }
 
-.players-row{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:12px 0;
-  border-bottom:1px solid #edf0f5
-}
+    .bankButton small{
+      opacity:.85
+    }
 
-.players-row:last-child{border-bottom:0}
-.dot{color:#17a05e}
+    .stats-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px
+    }
 
-.admin-player{
-  background:#f7f9fc;
-  padding:14px;
-  border-radius:14px;
-  margin:10px 0
-}
+    .stat{
+      background:white;
+      padding:16px;
+      border-radius:16px;
+      box-shadow:0 5px 20px #1720330a
+    }
 
-.admin-actions{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:7px;
-  margin-top:8px
-}
+    .stat b{
+      display:block;
+      font-size:22px
+    }
 
-.admin-actions input{
-  width:100%;
-  padding:10px;
-  border:1px solid #d9e1ec;
-  border-radius:9px
-}
+    .stat span{
+      color:#718096;
+      font-size:13px
+    }
 
-.admin-actions button{
-  padding:10px;
-  border-radius:9px;
-  background:#1677ff;
-  color:white;
-  font-weight:700
-}
+    .item{
+      background:white;
+      border-radius:18px;
+      padding:15px;
+      margin:10px 0;
+      box-shadow:0 5px 20px #1720330a;
+      display:flex;
+      gap:12px;
+      align-items:center
+    }
 
-.admin-actions .takeBtn{
-  background:#e53935;
-}
+    .itemIcon{
+      font-size:32px
+    }
 
-.admin-actions .takeBtn:hover{
-  background:#c62828;
-}
+    .itemBody{
+      flex:1
+    }
 
-.vipBtn{
-  background:#8b5cf6!important
-}
+    .itemBody b{
+      display:block
+    }
 
-.bottom-nav{
-  position:fixed;
-  bottom:0;
-  left:50%;
-  transform:translateX(-50%);
-  width:min(480px,100%);
-  display:flex;
-  justify-content:space-around;
-  background:white;
-  border-top:1px solid #e7ebf1;
-  padding:7px 3px calc(7px + env(safe-area-inset-bottom));
-  z-index:10
-}
+    .itemBody small{
+      color:#718096
+    }
 
-.bottom-nav button{
-  background:transparent;
-  color:#64748b;
-  font-size:19px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:2px
-}
+    .item button{
+      padding:10px 12px;
+      border-radius:10px;
+      background:#1677ff;
+      color:white;
+      font-weight:700
+    }
 
-.bottom-nav span{font-size:10px}
-.bottom-nav button:hover{color:#1677ff}
+    .item button:disabled{
+      background:#ccd5e2;
+      color:#667085
+    }
 
-#toast{
-  position:fixed;
-  left:50%;
-  bottom:85px;
-  transform:translateX(-50%) translateY(20px);
-  background:#172033;
-  color:white;
-  padding:11px 16px;
-  border-radius:12px;
-  opacity:0;
-  pointer-events:none;
-  transition:.2s;
-  z-index:30
-}
+    .big{
+      font-size:34px;
+      font-weight:900;
+      margin:5px 0 15px
+    }
 
-#toast.show{
-  opacity:1;
-  transform:translateX(-50%) translateY(0)
-}
+    .btcActions{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px
+    }
 
-@media(max-width:380px){
-  .bottom-nav button span{font-size:9px}
-  .balance{font-size:31px}
-}
-</style>
+    .btcActions button{
+      margin:0
+    }
 
-<script
-  src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
-  onerror="window.__SUPABASE_CDN_ERROR=true">
-</script>
+    .achievement{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      background:white;
+      padding:14px;
+      border-radius:16px;
+      margin:8px 0
+    }
 
+    .achievement.locked{
+      opacity:.45
+    }
+
+    .players-row{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:12px 0;
+      border-bottom:1px solid #edf0f5
+    }
+
+    .players-row:last-child{
+      border-bottom:0
+    }
+
+    .dot{
+      color:#17a05e
+    }
+
+    .admin-player{
+      background:#f7f9fc;
+      padding:14px;
+      border-radius:14px;
+      margin:10px 0
+    }
+
+    .admin-actions{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:7px;
+      margin-top:8px
+    }
+
+    .admin-actions input{
+      width:100%;
+      padding:10px;
+      border:1px solid #d9e1ec;
+      border-radius:9px
+    }
+
+    .admin-actions button{
+      padding:10px;
+      border-radius:9px;
+      background:#1677ff;
+      color:white;
+      font-weight:700
+    }
+
+    .takeBtn{
+      background:#e53935!important;
+    }
+
+    .takeBtn:active{
+      background:#c62828!important;
+    }
+
+    .vipBtn{
+      background:#8b5cf6!important
+    }
+
+    .bottom-nav{
+      position:fixed;
+      bottom:0;
+      left:50%;
+      transform:translateX(-50%);
+      width:min(480px,100%);
+      display:flex;
+      justify-content:space-around;
+      background:white;
+      border-top:1px solid #e7ebf1;
+      padding:7px 3px calc(7px + env(safe-area-inset-bottom));
+      z-index:10
+    }
+
+    .bottom-nav button{
+      background:transparent;
+      color:#64748b;
+      font-size:19px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:2px
+    }
+
+    .bottom-nav span{
+      font-size:10px
+    }
+
+    .bottom-nav button:hover{
+      color:#1677ff
+    }
+
+    #toast{
+      position:fixed;
+      left:50%;
+      bottom:85px;
+      transform:translateX(-50%) translateY(20px);
+      background:#172033;
+      color:white;
+      padding:11px 16px;
+      border-radius:12px;
+      opacity:0;
+      pointer-events:none;
+      transition:.2s;
+      z-index:30
+    }
+
+    #toast.show{
+      opacity:1;
+      transform:translateX(-50%) translateY(0)
+    }
+
+    @media(max-width:380px){
+      .bottom-nav button span{
+        font-size:9px
+      }
+
+      .balance{
+        font-size:31px
+      }
+    }
+  </style>
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+    onerror="window.__SUPABASE_CDN_ERROR=true">
+  </script>
 </head>
 
 <body>
 
+<!-- ЗАГРУЗКА -->
 <div id="loadingScreen">
   <div class="loadingBox">
     <div class="loadingLogo">🏦</div>
-    <div class="loadingText">Загружаем Bank Clicker...</div>
+    <div class="loadingText">
+      Загружаем Bank Clicker...
+    </div>
   </div>
 </div>
 
+
+<!-- АВТОРИЗАЦИЯ -->
 <div id="authScreen" class="screen" hidden>
 
   <div class="auth-card">
@@ -366,6 +472,8 @@ main{
       Твой виртуальный банк теперь онлайн.
     </p>
 
+
+    <!-- ВХОД -->
     <div id="loginBox">
 
       <input
@@ -383,19 +491,23 @@ main{
       <button
         type="button"
         class="primary"
-        onclick="login()">
+        onclick="login()"
+      >
         Войти
       </button>
 
       <button
         type="button"
         class="linkBtn"
-        onclick="showRegister()">
+        onclick="showRegister()"
+      >
         Создать аккаунт
       </button>
 
     </div>
 
+
+    <!-- РЕГИСТРАЦИЯ -->
     <div id="registerBox" hidden>
 
       <input
@@ -420,266 +532,330 @@ main{
       <button
         type="button"
         class="primary"
-        onclick="register()">
+        onclick="register()"
+      >
         Зарегистрироваться
       </button>
 
       <button
         type="button"
         class="linkBtn"
-        onclick="showLogin()">
+        onclick="showLogin()"
+      >
         У меня уже есть аккаунт
       </button>
 
     </div>
 
+
     <div id="authMessage" class="message"></div>
 
   </div>
-
 </div>
 
+
+<!-- ИГРА -->
 <div id="gameScreen" hidden>
 
-<header class="top">
+  <header class="top">
 
-  <div>
+    <div>
 
-    <div class="brand">
-      🏦 Bank Clicker
+      <div class="brand">
+        🏦 Bank Clicker
+      </div>
+
+      <div
+        id="playerName"
+        class="small">
+      </div>
+
     </div>
 
-    <div id="playerName" class="small"></div>
-
-  </div>
-
-  <div class="onlineBadge">
-    🟢 <span id="onlineCount">1</span>
-  </div>
-
-</header>
-
-<main>
-
-<section id="home" class="section active">
-
-  <div class="balance-card">
-
-    <div class="muted">
-      Баланс
+    <div class="onlineBadge">
+      🟢
+      <span id="onlineCount">1</span>
     </div>
 
-    <div id="money" class="balance">
-      $0
-    </div>
+  </header>
 
-    <div id="income" class="income">
-      + $0 / сек
-    </div>
 
-  </div>
+  <main>
 
-  <button
-    id="bankButton"
-    class="bankButton"
-    onclick="clickBank()">
 
-    <span>🏦</span>
+    <!-- ГЛАВНАЯ -->
+    <section
+      id="home"
+      class="section active">
 
-    <b>НАЖМИ</b>
+      <div class="balance-card">
 
-    <small>
-      заработать деньги
-    </small>
+        <div class="muted">
+          Баланс
+        </div>
 
-  </button>
+        <div
+          id="money"
+          class="balance">
+          $0
+        </div>
 
-  <div class="stats-grid">
+        <div
+          id="income"
+          class="income">
+          + $0 / сек
+        </div>
 
-    <div class="stat">
-      <b id="btc">0</b>
-      <span>₿ Bitcoin</span>
-    </div>
+      </div>
 
-    <div class="stat">
-      <b id="clicks">0</b>
-      <span>Кликов</span>
-    </div>
-
-    <div class="stat">
-      <b id="level">1</b>
-      <span>Уровень</span>
-    </div>
-
-    <div class="stat">
-      <b id="rep">0</b>
-      <span>Репутация</span>
-    </div>
-
-  </div>
-
-</section>
-
-<section id="upgrades" class="section">
-
-  <h2>⚡ Улучшения</h2>
-
-  <div id="upgradeList"></div>
-
-</section>
-
-<section id="bitcoin" class="section">
-
-  <h2>₿ Bitcoin</h2>
-
-  <div class="card">
-
-    <div class="muted">
-      Цена BTC
-    </div>
-
-    <div id="btcPrice" class="big">
-      $65,000
-    </div>
-
-    <div class="btcActions">
 
       <button
-        class="primary"
-        onclick="buyBTC()">
-        Купить 1 BTC
+        id="bankButton"
+        class="bankButton"
+        onclick="clickBank()">
+
+        <span>🏦</span>
+
+        <b>НАЖМИ</b>
+
+        <small>
+          заработать деньги
+        </small>
+
       </button>
 
-      <button
-        class="secondary"
-        onclick="sellBTC()">
-        Продать 1 BTC
-      </button>
 
-    </div>
+      <div class="stats-grid">
 
-  </div>
+        <div class="stat">
+          <b id="btc">0</b>
+          <span>₿ Bitcoin</span>
+        </div>
 
-</section>
+        <div class="stat">
+          <b id="clicks">0</b>
+          <span>Кликов</span>
+        </div>
 
-<section id="shop" class="section">
+        <div class="stat">
+          <b id="level">1</b>
+          <span>Уровень</span>
+        </div>
 
-  <h2>🛒 Магазин</h2>
+        <div class="stat">
+          <b id="rep">0</b>
+          <span>Репутация</span>
+        </div>
 
-  <div id="shopList"></div>
+      </div>
 
-</section>
+    </section>
 
-<section id="achievements" class="section">
 
-  <h2>🏆 Достижения</h2>
+    <!-- УЛУЧШЕНИЯ -->
+    <section
+      id="upgrades"
+      class="section">
 
-  <div id="achievementList"></div>
+      <h2>⚡ Улучшения</h2>
 
-</section>
+      <div id="upgradeList"></div>
 
-<section id="players" class="section">
+    </section>
 
-  <h2>🌐 Игроки онлайн</h2>
 
-  <div class="card">
+    <!-- BITCOIN -->
+    <section
+      id="bitcoin"
+      class="section">
 
-    <p class="muted">
-      Сейчас в сети:
-      <b id="playersCountText">1</b>
-    </p>
+      <h2>₿ Bitcoin</h2>
 
-    <div id="playersList"></div>
+      <div class="card">
 
-  </div>
+        <div class="muted">
+          Цена BTC
+        </div>
 
-</section>
+        <div
+          id="btcPrice"
+          class="big">
+          $65,000
+        </div>
 
-<section id="settings" class="section">
+        <div class="btcActions">
 
-  <h2>⚙️ Настройки</h2>
+          <button
+            class="primary"
+            onclick="buyBTC()">
+            Купить 1 BTC
+          </button>
 
-  <div class="card">
+          <button
+            class="secondary"
+            onclick="sellBTC()">
+            Продать 1 BTC
+          </button>
 
-    <p>
-      👤 <b id="settingsName"></b>
-    </p>
+        </div>
 
-    <p class="muted">
-      Прогресс хранится на сервере.
-    </p>
+      </div>
 
-    <button
-      class="danger"
-      onclick="logout()">
-      🚪 Выйти
+    </section>
+
+
+    <!-- МАГАЗИН -->
+    <section
+      id="shop"
+      class="section">
+
+      <h2>🛒 Магазин</h2>
+
+      <div id="shopList"></div>
+
+    </section>
+
+
+    <!-- ДОСТИЖЕНИЯ -->
+    <section
+      id="achievements"
+      class="section">
+
+      <h2>🏆 Достижения</h2>
+
+      <div id="achievementList"></div>
+
+    </section>
+
+
+    <!-- ИГРОКИ -->
+    <section
+      id="players"
+      class="section">
+
+      <h2>🌐 Игроки онлайн</h2>
+
+      <div class="card">
+
+        <p class="muted">
+
+          Сейчас в сети:
+
+          <b id="playersCountText">
+            1
+          </b>
+
+        </p>
+
+        <div id="playersList"></div>
+
+      </div>
+
+    </section>
+
+
+    <!-- НАСТРОЙКИ -->
+    <section
+      id="settings"
+      class="section">
+
+      <h2>⚙️ Настройки</h2>
+
+      <div class="card">
+
+        <p>
+          👤
+          <b id="settingsName"></b>
+        </p>
+
+        <p class="muted">
+          Прогресс хранится на сервере.
+        </p>
+
+        <button
+          class="danger"
+          onclick="logout()">
+
+          🚪 Выйти
+
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <!-- АДМИН -->
+    <section
+      id="admin"
+      class="section">
+
+      <h2>🛡️ Панель разработчика</h2>
+
+      <div class="card">
+
+        <p class="muted">
+          Доступ разрешён только аккаунту
+          с ролью admin на сервере.
+        </p>
+
+        <button
+          class="secondary"
+          onclick="loadAdminPlayers()">
+
+          🔄 Обновить игроков
+
+        </button>
+
+        <div id="adminPlayers"></div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- НИЖНЯЯ НАВИГАЦИЯ -->
+  <nav class="bottom-nav">
+
+    <button onclick="nav('home')">
+      🏠
+      <span>Главная</span>
     </button>
 
-  </div>
-
-</section>
-
-<section id="admin" class="section">
-
-  <h2>🛡️ Панель разработчика</h2>
-
-  <div class="card">
-
-    <p class="muted">
-      Доступ разрешён только аккаунту с ролью admin на сервере.
-    </p>
-
-    <button
-      class="secondary"
-      onclick="loadAdminPlayers()">
-      🔄 Обновить игроков
+    <button onclick="nav('upgrades')">
+      ⚡
+      <span>Улучшения</span>
     </button>
 
-    <div id="adminPlayers"></div>
+    <button onclick="nav('bitcoin')">
+      ₿
+      <span>Bitcoin</span>
+    </button>
 
-  </div>
+    <button onclick="nav('shop')">
+      🛒
+      <span>Магазин</span>
+    </button>
 
-</section>
+    <button onclick="nav('players')">
+      🌐
+      <span>Онлайн</span>
+    </button>
 
-</main>
+    <button onclick="nav('settings')">
+      ⚙️
+      <span>Ещё</span>
+    </button>
 
-<nav class="bottom-nav">
-
-  <button onclick="nav('home')">
-    🏠
-    <span>Главная</span>
-  </button>
-
-  <button onclick="nav('upgrades')">
-    ⚡
-    <span>Улучшения</span>
-  </button>
-
-  <button onclick="nav('bitcoin')">
-    ₿
-    <span>Bitcoin</span>
-  </button>
-
-  <button onclick="nav('shop')">
-    🛒
-    <span>Магазин</span>
-  </button>
-
-  <button onclick="nav('players')">
-    🌐
-    <span>Онлайн</span>
-  </button>
-
-  <button onclick="nav('settings')">
-    ⚙️
-    <span>Ещё</span>
-  </button>
-
-</nav>
+  </nav>
 
 </div>
 
+
 <div id="toast"></div>
+
 
 <script>
 
@@ -689,14 +865,13 @@ window.SUPABASE_URL =
 window.SUPABASE_ANON_KEY =
   'sb_publishable_hZaPaVixmav8TB5X_EHiIA_Al2yVOOL';
 
-</script>
-
-<script>
 
 let sb = null;
 let profile = null;
 
-const $ = (id) => document.getElementById(id);
+const $ = (id) =>
+  document.getElementById(id);
+
 
 const el = {
 
@@ -742,16 +917,23 @@ const el = {
 
 };
 
+
 function hasSupabaseConfig(){
 
   return typeof window.supabase !== "undefined" &&
+
     typeof window.SUPABASE_URL === "string" &&
+
     typeof window.SUPABASE_ANON_KEY === "string" &&
+
     !window.SUPABASE_URL.includes("YOUR-") &&
+
     !window.SUPABASE_ANON_KEY.includes("YOUR_") &&
+
     window.SUPABASE_URL.startsWith("http");
 
 }
+
 
 function initSupabase(){
 
@@ -762,8 +944,8 @@ function initSupabase(){
     );
 
     return false;
-
   }
+
 
   if(
     !window.supabase ||
@@ -775,15 +957,16 @@ function initSupabase(){
     );
 
     return false;
-
   }
+
 
   try{
 
-    sb = window.supabase.createClient(
-      window.SUPABASE_URL,
-      window.SUPABASE_ANON_KEY
-    );
+    sb =
+      window.supabase.createClient(
+        window.SUPABASE_URL,
+        window.SUPABASE_ANON_KEY
+      );
 
     return true;
 
@@ -795,15 +978,17 @@ function initSupabase(){
     );
 
     return false;
-
   }
 
 }
+
 
 let onlineChannel = null;
 let presenceTimer = null;
 
 let btcPrice = 65000;
+let lastState = null;
+
 
 const upgrades = [
 
@@ -835,6 +1020,7 @@ const upgrades = [
 
 ];
 
+
 const shops = [
 
   ["safe","🔐","Сейф",500,10],
@@ -849,51 +1035,86 @@ const shops = [
 
 ];
 
+
 const achievements = [
 
-  ["first","💵","Первый доллар",
-    s=>s.total>=1],
+  [
+    "first",
+    "💵",
+    "Первый доллар",
+    s=>s.total>=1
+  ],
 
-  ["thousand","💰","Тысяча",
-    s=>s.total>=1000],
+  [
+    "thousand",
+    "💰",
+    "Тысяча",
+    s=>s.total>=1000
+  ],
 
-  ["million","🤑","Миллионер",
-    s=>s.total>=1000000],
+  [
+    "million",
+    "🤑",
+    "Миллионер",
+    s=>s.total>=1000000
+  ],
 
-  ["level10","🏦","Банкир 10 уровня",
-    s=>s.bank_level>=10],
+  [
+    "level10",
+    "🏦",
+    "Банкир 10 уровня",
+    s=>s.bank_level>=10
+  ],
 
-  ["btc","₿","Криптоинвестор",
-    s=>s.btc>=0.01],
+  [
+    "btc",
+    "₿",
+    "Криптоинвестор",
+    s=>s.btc>=0.01
+  ],
 
-  ["click100","👆","100 кликов",
-    s=>s.clicks>=100],
+  [
+    "click100",
+    "👆",
+    "100 кликов",
+    s=>s.clicks>=100
+  ],
 
-  ["click1000","🔥","1000 кликов",
-    s=>s.clicks>=1000],
+  [
+    "click1000",
+    "🔥",
+    "1000 кликов",
+    s=>s.clicks>=1000
+  ],
 
-  ["empire","👑","Банковская империя",
-    s=>s.bank_level>=100]
+  [
+    "empire",
+    "👑",
+    "Банковская империя",
+    s=>s.bank_level>=100
+  ]
 
 ];
 
+
 document.addEventListener(
   "DOMContentLoaded",
-  async () => {
+  async()=>{
 
     if(!initSupabase()){
 
       el.loadingScreen.style.display="none";
+
       el.authScreen.hidden=false;
 
       return;
-
     }
 
     await restoreSession();
 
   }
 );
+
 
 async function restoreSession(){
 
@@ -904,6 +1125,7 @@ async function restoreSession(){
         session
       }
     } = await sb.auth.getSession();
+
 
     if(session){
 
@@ -918,6 +1140,7 @@ async function restoreSession(){
   }catch(error){
 
     console.error(error);
+
     showAuth();
 
   }finally{
@@ -928,41 +1151,53 @@ async function restoreSession(){
 
 }
 
+
 function showAuth(){
 
   el.gameScreen.hidden=true;
+
   el.authScreen.hidden=false;
 
 }
 
+
 function showGame(){
 
   el.authScreen.hidden=true;
+
   el.gameScreen.hidden=false;
 
 }
 
+
 function showLogin(){
 
   el.loginBox.hidden=false;
+
   el.registerBox.hidden=true;
+
   el.authMessage.textContent="";
 
 }
+
 
 function showRegister(){
 
   el.loginBox.hidden=true;
+
   el.registerBox.hidden=false;
+
   el.authMessage.textContent="";
 
 }
+
 
 function showAuthMessage(t){
 
   el.authMessage.textContent=t;
 
 }
+
 
 async function register(){
 
@@ -974,6 +1209,7 @@ async function register(){
 
   }
 
+
   const username =
     el.regUsername.value.trim();
 
@@ -983,6 +1219,7 @@ async function register(){
   const password =
     el.regPassword.value;
 
+
   if(username.length<3){
 
     return showAuthMessage(
@@ -990,6 +1227,7 @@ async function register(){
     );
 
   }
+
 
   if(password.length<6){
 
@@ -999,25 +1237,30 @@ async function register(){
 
   }
 
+
   showAuthMessage(
     "⏳ Создаём аккаунт..."
   );
 
+
   const {
     data,
     error
-  } = await sb.auth.signUp({
+  } =
+    await sb.auth.signUp({
 
-    email,
-    password,
+      email,
 
-    options:{
-      data:{
-        username
+      password,
+
+      options:{
+        data:{
+          username
+        }
       }
-    }
 
-  });
+    });
+
 
   if(error){
 
@@ -1026,6 +1269,7 @@ async function register(){
     );
 
   }
+
 
   if(data.session){
 
@@ -1043,6 +1287,7 @@ async function register(){
 
 }
 
+
 async function login(){
 
   if(!sb){
@@ -1053,11 +1298,13 @@ async function login(){
 
   }
 
+
   const email =
     el.loginEmail.value.trim();
 
   const password =
     el.loginPassword.value;
+
 
   if(!email || !password){
 
@@ -1067,19 +1314,23 @@ async function login(){
 
   }
 
+
   showAuthMessage(
     "⏳ Входим..."
   );
 
+
   const {
     data,
     error
-  } = await sb.auth.signInWithPassword({
+  } =
+    await sb.auth.signInWithPassword({
 
-    email,
-    password
+      email,
+      password
 
-  });
+    });
+
 
   if(error){
 
@@ -1089,6 +1340,7 @@ async function login(){
 
   }
 
+
   if(data.session){
 
     await enterGame();
@@ -1096,6 +1348,7 @@ async function login(){
   }
 
 }
+
 
 async function logout(){
 
@@ -1105,13 +1358,8 @@ async function logout(){
 
   profile=null;
 
-  const adminNav =
-    document.getElementById("adminNav");
-
-  if(adminNav)
-    adminNav.remove();
-
   el.gameScreen.hidden=true;
+
   el.authScreen.hidden=false;
 
   showLogin();
@@ -1122,12 +1370,17 @@ async function logout(){
 
 }
 
+
 async function enterGame(){
 
   const {
     data,
     error
-  } = await sb.rpc("get_my_game");
+  } =
+    await sb.rpc(
+      "get_my_game"
+    );
+
 
   if(error){
 
@@ -1143,8 +1396,8 @@ async function enterGame(){
     );
 
     return;
-
   }
+
 
   profile=data;
 
@@ -1156,6 +1409,7 @@ async function enterGame(){
 
   await refreshOnline();
 
+
   if(profile.role==="admin"){
 
     addAdminNav();
@@ -1164,34 +1418,47 @@ async function enterGame(){
 
 }
 
+
 function renderAll(){
 
   el.playerName.textContent =
     profile.username +
-    (profile.vip_level>0 ? " 👑 VIP" : "");
+    (
+      profile.vip_level>0
+      ? " 👑 VIP"
+      : ""
+    );
+
 
   el.settingsName.textContent =
     profile.username;
 
+
   el.money.textContent =
     moneyFmt(profile.money);
+
 
   el.income.textContent =
     "+ " +
     moneyFmt(profile.income) +
     " / сек";
 
+
   el.btc.textContent =
     Number(profile.btc).toFixed(4);
+
 
   el.clicks.textContent =
     numberFmt(profile.clicks);
 
+
   el.level.textContent =
     numberFmt(profile.bank_level);
 
+
   el.rep.textContent =
     numberFmt(profile.rep);
+
 
   renderUpgrades();
 
@@ -1200,6 +1467,7 @@ function renderAll(){
   renderAchievements();
 
 }
+
 
 function moneyFmt(n){
 
@@ -1213,6 +1481,7 @@ function moneyFmt(n){
 
 }
 
+
 function numberFmt(n){
 
   return Number(n||0).toLocaleString(
@@ -1221,19 +1490,25 @@ function numberFmt(n){
 
 }
 
+
 async function clickBank(){
 
   const {
     data,
     error
-  } = await sb.rpc("click_bank");
+  } =
+    await sb.rpc(
+      "click_bank"
+    );
+
 
   if(error){
 
     toast(error.message);
-    return;
 
+    return;
   }
+
 
   profile=data;
 
@@ -1241,23 +1516,27 @@ async function clickBank(){
 
 }
 
+
 async function buyUpgrade(id){
 
   const {
     data,
     error
-  } = await sb.rpc(
-    "buy_upgrade",
-    {
-      p_upgrade_id:id
-    }
-  );
+  } =
+    await sb.rpc(
+      "buy_upgrade",
+      {
+        p_upgrade_id:id
+      }
+    );
+
 
   if(error){
 
     return toast(error.message);
 
   }
+
 
   profile=data;
 
@@ -1268,6 +1547,7 @@ async function buyUpgrade(id){
   );
 
 }
+
 
 function renderUpgrades(){
 
@@ -1283,12 +1563,15 @@ function renderUpgrades(){
         incomeAdd
       ]=x;
 
+
       const owned =
         Number(
           profile.upgrades?.[id]||0
         );
 
+
       return `
+
         <div class="item">
 
           <div class="itemIcon">
@@ -1316,29 +1599,34 @@ function renderUpgrades(){
           </button>
 
         </div>
+
       `;
 
     }).join("");
 
 }
 
+
 async function buyShop(id){
 
   const {
     data,
     error
-  } = await sb.rpc(
-    "buy_shop",
-    {
-      p_shop_id:id
-    }
-  );
+  } =
+    await sb.rpc(
+      "buy_shop",
+      {
+        p_shop_id:id
+      }
+    );
+
 
   if(error){
 
     return toast(error.message);
 
   }
+
 
   profile=data;
 
@@ -1349,6 +1637,7 @@ async function buyShop(id){
   );
 
 }
+
 
 function renderShop(){
 
@@ -1363,10 +1652,13 @@ function renderShop(){
         bonus
       ]=x;
 
+
       const owned =
         !!profile.shop?.[id];
 
+
       return `
+
         <div class="item">
 
           <div class="itemIcon">
@@ -1392,11 +1684,13 @@ function renderShop(){
           </button>
 
         </div>
+
       `;
 
     }).join("");
 
 }
+
 
 function renderAchievements(){
 
@@ -1410,9 +1704,12 @@ function renderAchievements(){
         check
       ]=a;
 
+
       const ok=check(profile);
 
+
       return `
+
         <div
           class="achievement ${ok?"":"locked"}"
         >
@@ -1430,29 +1727,34 @@ function renderAchievements(){
           </div>
 
         </div>
+
       `;
 
     }).join("");
 
 }
 
+
 async function buyBTC(){
 
   const {
     data,
     error
-  } = await sb.rpc(
-    "buy_btc",
-    {
-      p_price:btcPrice
-    }
-  );
+  } =
+    await sb.rpc(
+      "buy_btc",
+      {
+        p_price:btcPrice
+      }
+    );
+
 
   if(error){
 
     return toast(error.message);
 
   }
+
 
   profile=data;
 
@@ -1464,23 +1766,27 @@ async function buyBTC(){
 
 }
 
+
 async function sellBTC(){
 
   const {
     data,
     error
-  } = await sb.rpc(
-    "sell_btc",
-    {
-      p_price:btcPrice
-    }
-  );
+  } =
+    await sb.rpc(
+      "sell_btc",
+      {
+        p_price:btcPrice
+      }
+    );
+
 
   if(error){
 
     return toast(error.message);
 
   }
+
 
   profile=data;
 
@@ -1491,6 +1797,7 @@ async function sellBTC(){
   );
 
 }
+
 
 setInterval(()=>{
 
@@ -1508,6 +1815,7 @@ setInterval(()=>{
       )
     );
 
+
   if(el.btcPrice){
 
     el.btcPrice.textContent =
@@ -1517,6 +1825,7 @@ setInterval(()=>{
 
 },5000);
 
+
 function nav(id){
 
   document
@@ -1525,10 +1834,13 @@ function nav(id){
       x=>x.classList.remove("active")
     );
 
+
   $(id).classList.add("active");
+
 
   if(id==="players")
     refreshOnline();
+
 
   if(
     id==="admin" &&
@@ -1541,21 +1853,26 @@ function nav(id){
 
 }
 
+
 async function refreshOnline(){
 
   if(!onlineChannel)
     return;
 
+
   const state =
     onlineChannel.presenceState();
 
+
   const users=[];
+
 
   Object.values(state)
     .flat()
     .forEach(
       p=>users.push(p)
     );
+
 
   const unique=[
     ...new Map(
@@ -1565,11 +1882,14 @@ async function refreshOnline(){
     ).values()
   ];
 
+
   el.onlineCount.textContent =
     unique.length||1;
 
+
   el.playersCountText.textContent =
     unique.length||1;
+
 
   el.playersList.innerHTML =
     unique.map(
@@ -1597,9 +1917,11 @@ async function refreshOnline(){
 
 }
 
+
 function startPresence(){
 
   stopPresence();
+
 
   onlineChannel =
     sb.channel(
@@ -1612,6 +1934,7 @@ function startPresence(){
         }
       }
     );
+
 
   onlineChannel
 
@@ -1652,12 +1975,14 @@ function startPresence(){
 
           });
 
+
           refreshOnline();
 
         }
 
       }
     );
+
 
   presenceTimer =
     setInterval(
@@ -1666,6 +1991,7 @@ function startPresence(){
     );
 
 }
+
 
 function stopPresence(){
 
@@ -1679,6 +2005,7 @@ function stopPresence(){
 
   }
 
+
   if(onlineChannel){
 
     sb.removeChannel(
@@ -1691,40 +2018,58 @@ function stopPresence(){
 
 }
 
+
+/* =========================================
+   АДМИН-ПАНЕЛЬ
+   ========================================= */
+
 function addAdminNav(){
 
-  if(document.getElementById("adminNav"))
+  if(
+    document.getElementById(
+      "adminNav"
+    )
+  )
     return;
+
 
   const navEl =
     document.querySelector(
       ".bottom-nav"
     );
 
+
   const b =
     document.createElement("button");
 
+
   b.id="adminNav";
+
 
   b.onclick=()=>{
     nav("admin");
   };
 
-  b.innerHTML=
+
+  b.innerHTML =
     "🛡️<span>Админ</span>";
+
 
   navEl.appendChild(b);
 
 }
+
 
 async function loadAdminPlayers(){
 
   const {
     data,
     error
-  } = await sb.rpc(
-    "admin_list_players"
-  );
+  } =
+    await sb.rpc(
+      "admin_list_players"
+    );
+
 
   if(error){
 
@@ -1733,6 +2078,7 @@ async function loadAdminPlayers(){
     );
 
   }
+
 
   el.adminPlayers.innerHTML =
     data.map(
@@ -1747,7 +2093,7 @@ async function loadAdminPlayers(){
           ${
             p.vip_level>0
             ?
-            "👑 VIP "+p.vip_level
+            " 👑 VIP "+p.vip_level
             :
             ""
           }
@@ -1768,15 +2114,23 @@ async function loadAdminPlayers(){
 
           </div>
 
+
           <div>
 
             💵 ${moneyFmt(p.money)}
 
-            · ₿ ${Number(p.btc).toFixed(4)}
+            ·
 
-            · ⚡ ${p.click_power}
+            ₿ ${Number(p.btc).toFixed(4)}
+
+            ·
+
+            ⚡ ${p.click_power}
 
           </div>
+
+
+          <!-- ВЫДАТЬ -->
 
           <div class="admin-actions">
 
@@ -1791,20 +2145,6 @@ async function loadAdminPlayers(){
               onclick="adminGive('${p.id}','money')"
             >
               💵 Выдать
-            </button>
-
-            <input
-              id="tm_${p.id}"
-              type="number"
-              min="0"
-              placeholder="Сколько забрать"
-            >
-
-            <button
-              class="takeBtn"
-              onclick="adminTake('${p.id}','money')"
-            >
-              💵 Забрать
             </button>
 
 
@@ -1822,21 +2162,6 @@ async function loadAdminPlayers(){
               ₿ Выдать
             </button>
 
-            <input
-              id="tb_${p.id}"
-              type="number"
-              min="0"
-              step="0.0001"
-              placeholder="BTC забрать"
-            >
-
-            <button
-              class="takeBtn"
-              onclick="adminTake('${p.id}','btc')"
-            >
-              ₿ Забрать
-            </button>
-
 
             <input
               id="u_${p.id}"
@@ -1849,20 +2174,6 @@ async function loadAdminPlayers(){
               onclick="adminGive('${p.id}','upgrades')"
             >
               ⚡ Выдать
-            </button>
-
-            <input
-              id="tu_${p.id}"
-              type="number"
-              min="0"
-              placeholder="Улучшения забрать"
-            >
-
-            <button
-              class="takeBtn"
-              onclick="adminTake('${p.id}','upgrades')"
-            >
-              ⚡ Забрать
             </button>
 
 
@@ -1883,6 +2194,75 @@ async function loadAdminPlayers(){
 
           </div>
 
+
+          <!-- ЗАБРАТЬ -->
+
+          <div
+            style="
+              margin-top:12px;
+              padding-top:10px;
+              border-top:1px solid #e1e6ee;
+            "
+          >
+
+            <b style="font-size:14px">
+              🛑 Забрать у игрока
+            </b>
+
+          </div>
+
+
+          <div class="admin-actions">
+
+            <input
+              id="tm_${p.id}"
+              type="number"
+              min="0"
+              step="0.01"
+              placeholder="Сколько денег"
+            >
+
+            <button
+              class="takeBtn"
+              onclick="adminTake('${p.id}','money')"
+            >
+              💵 Забрать
+            </button>
+
+
+            <input
+              id="tb_${p.id}"
+              type="number"
+              min="0"
+              step="0.0001"
+              placeholder="Сколько BTC"
+            >
+
+            <button
+              class="takeBtn"
+              onclick="adminTake('${p.id}','btc')"
+            >
+              ₿ Забрать
+            </button>
+
+
+            <input
+              id="tu_${p.id}"
+              type="number"
+              min="0"
+              step="1"
+              placeholder="Сколько улучшений"
+            >
+
+            <button
+              class="takeBtn"
+              onclick="adminTake('${p.id}','upgrades')"
+            >
+              ⚡ Забрать
+            </button>
+
+          </div>
+
         </div>
 
       `
@@ -1892,41 +2272,63 @@ async function loadAdminPlayers(){
 
 }
 
+
+/* =========================================
+   ВЫДАТЬ
+   ========================================= */
+
 async function adminGive(id,type){
 
   let amount=0;
 
-  if(type==="money")
-    amount=
-      Number(
-        document.getElementById(
-          "m_"+id
-        ).value
+
+  if(type==="money"){
+
+    const input =
+      document.getElementById(
+        "m_"+id
       );
 
-  if(type==="btc")
-    amount=
-      Number(
-        document.getElementById(
-          "b_"+id
-        ).value
+    amount=Number(input.value);
+
+  }
+
+
+  if(type==="btc"){
+
+    const input =
+      document.getElementById(
+        "b_"+id
       );
 
-  if(type==="upgrades")
-    amount=
-      Number(
-        document.getElementById(
-          "u_"+id
-        ).value
+    amount=Number(input.value);
+
+  }
+
+
+  if(type==="upgrades"){
+
+    const input =
+      document.getElementById(
+        "u_"+id
       );
 
-  if(type==="vip")
-    amount=
-      Number(
-        document.getElementById(
-          "v_"+id
-        ).value
+    amount=Number(input.value);
+
+  }
+
+
+  if(type==="vip"){
+
+    const input =
+      document.getElementById(
+        "v_"+id
       );
+
+    amount=Number(input.value);
+
+  }
+
 
   if(
     !Number.isFinite(amount) ||
@@ -1939,7 +2341,10 @@ async function adminGive(id,type){
 
   }
 
-  const {error} =
+
+  const {
+    error
+  } =
     await sb.rpc(
       "admin_grant",
       {
@@ -1949,6 +2354,7 @@ async function adminGive(id,type){
       }
     );
 
+
   if(error){
 
     return toast(
@@ -1957,41 +2363,61 @@ async function adminGive(id,type){
 
   }
 
+
   toast(
-    "✅ Выдано"
+    "✅ Изменение применено"
   );
+
 
   loadAdminPlayers();
 
 }
 
+
+/* =========================================
+   ЗАБРАТЬ
+   ========================================= */
+
 async function adminTake(id,type){
 
   let amount=0;
 
-  if(type==="money")
-    amount=
-      Number(
-        document.getElementById(
-          "tm_"+id
-        ).value
+
+  if(type==="money"){
+
+    const input =
+      document.getElementById(
+        "tm_"+id
       );
 
-  if(type==="btc")
-    amount=
-      Number(
-        document.getElementById(
-          "tb_"+id
-        ).value
+    amount=Number(input.value);
+
+  }
+
+
+  if(type==="btc"){
+
+    const input =
+      document.getElementById(
+        "tb_"+id
       );
 
-  if(type==="upgrades")
-    amount=
-      Number(
-        document.getElementById(
-          "tu_"+id
-        ).value
+    amount=Number(input.value);
+
+  }
+
+
+  if(type==="upgrades"){
+
+    const input =
+      document.getElementById(
+        "tu_"+id
       );
+
+    amount=Number(input.value);
+
+  }
+
 
   if(
     !Number.isFinite(amount) ||
@@ -2003,6 +2429,7 @@ async function adminTake(id,type){
     );
 
   }
+
 
   const {
     data,
@@ -2017,6 +2444,7 @@ async function adminTake(id,type){
       }
     );
 
+
   if(error){
 
     return toast(
@@ -2025,13 +2453,20 @@ async function adminTake(id,type){
 
   }
 
+
   toast(
-    "✅ Забрано"
+    "🛑 Ресурс забран у игрока"
   );
+
 
   loadAdminPlayers();
 
 }
+
+
+/* =========================================
+   ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
+   ========================================= */
 
 function escapeHtml(s){
 
@@ -2049,6 +2484,7 @@ function escapeHtml(s){
   );
 
 }
+
 
 function toast(t){
 
